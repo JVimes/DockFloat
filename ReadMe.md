@@ -1,0 +1,1 @@
+The **DockFloat** library provides very simple way to dock and float parts of your WPF UI.
