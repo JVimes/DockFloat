@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:DemoApp"
         xmlns:df="clr-namespace:DockFloat;assembly=DockFloat"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Background="LightYellow" Text="Main UI"/>
-        <TextBlock Background="LightGreen" Text="Floatable panel" Grid.Column="1"
-                   df:DockingManager.Floatable="True"/>
-    </Grid>
+        Title="Demo" Height="350" Width="525">
+    <DockPanel>
+        <df:Dock DockPanel.Dock="Left">
+            <TextBlock Background="LightBlue" Text="Tool panel 1" Grid.Column="1"/>
+        </df:Dock>
+        <df:Dock Grid.Column="2" DockPanel.Dock="Right">
+            <TextBlock Background="LightGreen" Text="Tool panel 2" Grid.Column="1"/>
+        </df:Dock>
+        <TextBlock Background="LightYellow" Text="Main UI" Grid.Column="1"/>
+    </DockPanel>
 </Window>

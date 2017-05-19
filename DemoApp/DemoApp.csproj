@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DockFloat\DockFloat.csproj">
-      <Project>{2ec16adf-33ec-49f0-9bb2-cb9e68cd5ae5}</Project>
+      <Project>{86c22db6-4211-44a1-93ba-b21027cc90f9}</Project>
       <Name>DockFloat</Name>
     </ProjectReference>
   </ItemGroup>
