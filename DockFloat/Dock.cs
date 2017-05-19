@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -46,6 +47,7 @@ namespace DockFloat
     ///
     /// </summary>
     [ContentProperty("Content")]
+    [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control
     {
         Window floatingWindow;
@@ -85,7 +87,7 @@ namespace DockFloat
 
         public override void OnApplyTemplate()
         {
-            var button = GetTemplateChild("popOutButton") as Button;
+            var button = GetTemplateChild("PART_PopOutButton") as Button;
             button.Click += (s, e) =>
             {
                 var position = Content.PointToScreen(new Point(0, 0));

@@ -23,9 +23,47 @@
                         </Border.Resources>
                         <Grid>
                             <ContentPresenter x:Name="presenter"/>
-                            <Button x:Name="popOutButton" Content="pop out"
+                            <Button x:Name="PART_PopOutButton"
+                                    ToolTip="Pop this panel out into its own window"
                                     HorizontalAlignment="Right"
-                                    VerticalAlignment="Top"/>
+                                    VerticalAlignment="Top">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Setter Property="Margin" Value="1"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Width"  Value="16"/>
+                                        <Setter Property="Height" Value="16"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border BorderThickness="{TemplateBinding Padding}"
+                                                            Width="{TemplateBinding Width}"
+                                                            Height="{TemplateBinding Height}"
+                                                            SnapsToDevicePixels="True">
+                                                        <Viewbox SnapsToDevicePixels="True">
+                                                            <Image Height="16" Width="16">
+                                                                <Image.Source>
+                                                                    <DrawingImage>
+                                                                        <DrawingImage.Drawing>
+                                                                            <DrawingGroup>
+                                                                                <DrawingGroup.Children>
+                                                                                    <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                                                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0.9999,-0.000199999999999534L0.9999,3.0008 4.7139,3.0008 1.0119,6.9998 6.4409,6.9998 0.6179,12.8438 3.1499,15.4288 9.1499,9.3008 9.1499,15.2508 12.9999,11.0888 12.9999,15.9998 15.9999,15.9998 15.9999,-0.000199999999999534z" />
+                                                                                    <GeometryDrawing Brush="#FF424242" Geometry="F1M14,1L2,1 2,2 14,2 14,15 15,15 15,1z M5.151,4L12,4 12,10.697 10.15,12.697 10.15,6.85 3.15,14 2.023,12.85 8.85,6 3.3,6z" />
+                                                                                </DrawingGroup.Children>
+                                                                            </DrawingGroup>
+                                                                        </DrawingImage.Drawing>
+                                                                    </DrawingImage>
+                                                                </Image.Source>
+                                                            </Image>
+                                                        </Viewbox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </Grid>
                     </Border>
                 </ControlTemplate>
