@@ -58,7 +58,9 @@ namespace DockFloat
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata((s, e) =>
             {
-                (s as Dock).AddLogicalChild(e.NewValue);
+                var floatee = e.NewValue as FrameworkElement;
+                floatee.RemoveFromParent();
+                (s as Dock).AddLogicalChild(floatee);
             }));
 
         static Dock()
@@ -85,7 +87,7 @@ namespace DockFloat
             button.Click += (s, e) =>
             {
                 PopOut(Content);
-                Content = null; // Triggers binding
+                Content = null; // Triggers a binding
             };
         }
 
@@ -95,9 +97,9 @@ namespace DockFloat
 
             var width = floatee.ActualWidth;
             var height = floatee.ActualHeight;
-            var parent = floatee.Parent;
+            var homeDock = floatee.Parent as Dock;
 
-            floatee.DetachFromParent();
+            floatee.RemoveFromParent();
 
             floatee.Width = width;
             floatee.Height = height;
@@ -120,13 +122,15 @@ namespace DockFloat
                 floatingWindow?.Close();
                 floatingWindow = window;
             };
-            window.Closed += (s, e) => PopIn(s as Window);
+            window.Closed += (s, e) => DockIn(window, homeDock);
             window.Show();
         }
 
-        private static void PopIn(Window window)
+        private static void DockIn(Window window, Dock dock)
         {
             var floatee = window.Content as FrameworkElement;
+            dock.Content = floatee;
+            window.Close();
         }
     }
 }

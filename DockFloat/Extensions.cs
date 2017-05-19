@@ -10,9 +10,12 @@ namespace DockFloat
 {
     static class Extensions
     {
-        public static void DetachFromParent(this FrameworkElement element)
+        public static void RemoveFromParent(this FrameworkElement element)
         {
-            var parent = element.Parent as UIElement;
+            var parent = element?.Parent as UIElement;
+
+            if (parent == null) return;
+
             switch (parent)
             {
                 case Panel panel:
