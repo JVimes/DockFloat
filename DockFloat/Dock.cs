@@ -48,7 +48,7 @@ namespace DockFloat
     [ContentProperty("Content")]
     public class Dock : Control
     {
-        static Window floatingWindow;
+        Window floatingWindow;
 
         public FrameworkElement Content
         {
@@ -75,9 +75,11 @@ namespace DockFloat
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Application.Current.MainWindow.StateChanged += (s, e) =>
             {
-                if (floatingWindow == null) return;
                 var mainWindow = s as Window;
-                floatingWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
+                var docks = mainWindow.FindLogicalChildren<Dock>();
+                foreach(var dock in docks)
+                    if(dock.floatingWindow != null)
+                        dock.floatingWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
             };
         }
 
@@ -86,12 +88,13 @@ namespace DockFloat
             var button = GetTemplateChild("popOutButton") as Button;
             button.Click += (s, e) =>
             {
-                PopOut(Content);
+                var position = Content.PointToScreen(new Point(0, 0));
+                PopOut(Content, position.X, position.Y);
                 Content = null; // Triggers a binding
             };
         }
 
-        private static void PopOut(FrameworkElement floatee)
+        private static void PopOut(FrameworkElement floatee, double x, double y)
         {
             if (floatee == null) return;
 
@@ -108,8 +111,11 @@ namespace DockFloat
 
             var window = new Window()
             {
-                MinWidth = 200,
+                Owner = Application.Current.MainWindow,
                 WindowStyle = WindowStyle.ToolWindow,
+                Left = x,
+                Top = y,
+                MinWidth = 200,
                 ShowInTaskbar = false,
                 SizeToContent = SizeToContent.WidthAndHeight,
                 Content = floatee,
@@ -119,8 +125,8 @@ namespace DockFloat
                 window.SizeToContent = SizeToContent.Manual;
                 floatee.Width = double.NaN;
                 floatee.Height = double.NaN;
-                floatingWindow?.Close();
-                floatingWindow = window;
+                homeDock.floatingWindow?.Close();
+                homeDock.floatingWindow = window;
             };
             window.Closed += (s, e) => DockIn(window, homeDock);
             window.Show();
@@ -131,6 +137,7 @@ namespace DockFloat
             var floatee = window.Content as FrameworkElement;
             dock.Content = floatee;
             window.Close();
+            dock.floatingWindow = null;
         }
     }
 }

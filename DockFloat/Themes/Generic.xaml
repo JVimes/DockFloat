@@ -2,7 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DockFloat">
-    <local:Converter x:Key="Converter"/>
     <Style TargetType="{x:Type local:Dock}">
         <Setter Property="Template">
             <Setter.Value>
@@ -14,7 +13,7 @@
                             <Style TargetType="Border">
                                 <Setter Property="Visibility" Value="Visible"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Content, ElementName=presenter, Converter={StaticResource Converter}}"
+                                    <DataTrigger Binding="{Binding Content, ElementName=presenter}"
                                                      Value="{x:Null}">
                                         <Setter Property="Visibility"
                                                         Value="Collapsed"/>
