@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:DockFloat">
+    
     <Style TargetType="{x:Type local:Dock}">
         <Setter Property="Template">
             <Setter.Value>
@@ -70,4 +71,100 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <Style TargetType="local:FloatWindow"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
+        <Setter Property="shell:WindowChrome.WindowChrome">
+            <Setter.Value>
+                <shell:WindowChrome GlassFrameThickness="1"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+        <Setter Property="Panel.Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:FloatWindow">
+                    <Border Padding="0.5,0.5,1,1" UseLayoutRounding="True">
+                        <DockPanel>
+                            <Border Background="White" DockPanel.Dock="Top" Padding="0,0,0,1">
+                                <DockPanel Height="{Binding RelativeSource={RelativeSource TemplatedParent},
+                                                         Path=(shell:WindowChrome.WindowChrome).CaptionHeight}"
+                                                Margin="7,0,3,0">
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
+                                                   DockPanel.Dock="Left"
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Center"/>
+                                    <Button x:Name="PART_DockButton"
+                                                DockPanel.Dock="Right"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                                                    <Rectangle Width="16" Height="16">
+                                                        <Rectangle.Fill>
+                                                            <DrawingBrush>
+                                                                <DrawingBrush.Drawing>
+                                                                    <DrawingGroup>
+                                                                        <DrawingGroup.Children>
+                                                                            <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                                            <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0.9999,-0.000199999999999534L0.9999,3.0008 4.6229,3.0008 1.0989,6.8088 1.0989,14.8988 9.3149,14.8988 13.0419,11.7398 13.0419,15.9998 15.9999,15.9998 15.9999,-0.000199999999999534z M4.9489,3.0008L10.5979,3.0008 4.9489,8.5178z M13.0419,5.3718L13.0419,11.1998 7.3339,11.1998z" />
+                                                                            <GeometryDrawing Brush="#FF424242" Geometry="F1M2,1L2,2 14,2 14,15 15,15 15,1z M8.949,13.898L2.099,13.898 2.099,7.201 3.949,5.201 3.949,10.898 11,4 12,5 4.949,12.199 10.953,12.199z" />
+                                                                        </DrawingGroup.Children>
+                                                                    </DrawingGroup>
+                                                                </DrawingBrush.Drawing>
+                                                            </DrawingBrush>
+                                                        </Rectangle.Fill>
+                                                    </Rectangle>
+                                                </Viewbox>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DockPanel>
+                            </Border>
+                            <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}">
+                                <AdornerDecorator>
+                                    <ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"/>
+                                </AdornerDecorator>
+                            </Border>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Window.ResizeMode" Value="{x:Static ResizeMode.CanResizeWithGrip}">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Window">
+                            <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}">
+                                <Grid>
+                                    <AdornerDecorator>
+                                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" />
+                                    </AdornerDecorator>
+                                    <ResizeGrip IsTabStop="False" Name="WindowResizeGrip" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Window.ResizeMode" Value="{x:Static ResizeMode.CanResizeWithGrip}" />
+                                        <Condition Property="Window.WindowState" Value="{x:Static WindowState.Normal}" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="UIElement.Visibility" TargetName="WindowResizeGrip">
+                                        <Setter.Value>
+                                            <x:Static Member="Visibility.Visible" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
 </ResourceDictionary>

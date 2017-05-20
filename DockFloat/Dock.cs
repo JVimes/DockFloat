@@ -111,10 +111,9 @@ namespace DockFloat
             floatee.HorizontalAlignment = HorizontalAlignment.Stretch;
             floatee.VerticalAlignment = VerticalAlignment.Stretch;
 
-            var window = new Window()
+            var window = new FloatWindow()
             {
                 Owner = Application.Current.MainWindow,
-                WindowStyle = WindowStyle.ToolWindow,
                 Left = x,
                 Top = y,
                 MinWidth = 200,
@@ -130,8 +129,8 @@ namespace DockFloat
                 homeDock.floatingWindow?.Close();
                 homeDock.floatingWindow = window;
             };
-            window.Closed += (s, e) => DockIn(window, homeDock);
             window.Show();
+            window.DockButton.Click += (s, e) => DockIn(window, homeDock);
         }
 
         private static void DockIn(Window window, Dock dock)
