@@ -120,6 +120,7 @@ namespace DockFloat
                 ShowInTaskbar = false,
                 SizeToContent = SizeToContent.WidthAndHeight,
                 Content = floatee,
+                Dock = (windowToDock) => DockIn(windowToDock, homeDock),
             };
             window.Loaded += (s2, e2) =>
             {
@@ -130,7 +131,6 @@ namespace DockFloat
                 homeDock.floatingWindow = window;
             };
             window.Show();
-            window.DockButton.Click += (s, e) => DockIn(window, homeDock);
         }
 
         private static void DockIn(Window window, Dock dock)
