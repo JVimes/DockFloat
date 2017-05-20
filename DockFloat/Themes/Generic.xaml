@@ -16,8 +16,7 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Content, ElementName=presenter}"
                                                      Value="{x:Null}">
-                                        <Setter Property="Visibility"
-                                                        Value="Collapsed"/>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -76,7 +75,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
-                <shell:WindowChrome GlassFrameThickness="1"/>
+                <shell:WindowChrome GlassFrameThickness="2"/>
             </Setter.Value>
         </Setter>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -87,10 +86,11 @@
                     <Border Padding="1" UseLayoutRounding="True">
                         <DockPanel>
                             <Border Background="{Binding Content.Background, RelativeSource={RelativeSource TemplatedParent}}"
-                                    DockPanel.Dock="Top" Padding="0,0,0,1">
+                                    DockPanel.Dock="Top">
                                 <DockPanel Height="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                                         Path=(shell:WindowChrome.WindowChrome).CaptionHeight}"
-                                           Margin="7,0,3,0">
+                                                            Path=(shell:WindowChrome.WindowChrome).CaptionHeight,
+                                                            Mode=OneWay}"
+                                           Margin="7,0,3,3">
                                     <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
                                                DockPanel.Dock="Left"
                                                HorizontalAlignment="Left"
