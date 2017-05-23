@@ -48,10 +48,12 @@ namespace DockFloat
     [TemplatePart(Name = "PART_DockButton", Type = typeof(ButtonBase))]
     public class FloatWindow : Window
     {
+        Action dockIn;
+
         public FloatWindow(FrameworkElement content, Action dockIn)
         {
             Content = content;
-            DockIn = dockIn;
+            this.dockIn = dockIn;
             Loaded += (s, e) =>
             {
                 SizeToContent = SizeToContent.Manual;
@@ -65,15 +67,12 @@ namespace DockFloat
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FloatWindow), new FrameworkPropertyMetadata(typeof(FloatWindow)));
         }
 
-        /// <summary> This will be called when the dock button is clicked. </summary>
-        public Action DockIn { get; set; }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var dockButton = GetTemplateChild("PART_DockButton") as Button;
             dockButton.Click += (s, e) => Close();
-            Closed += (s, e) => DockIn();
+            Closed += (s, e) => dockIn();
         }
     }
 }
