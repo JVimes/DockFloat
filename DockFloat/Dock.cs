@@ -70,7 +70,7 @@ namespace DockFloat
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
 
 #if DEBUG
-            // Avoid squiggles in the XAML designer
+            // Avoid squiggels in the XAML designer
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 #endif
 
@@ -114,7 +114,6 @@ namespace DockFloat
 
             var window = new FloatWindow()
             {
-                Owner = Application.Current.MainWindow,
                 Left = x,
                 Top = y,
                 MinWidth = 200,
