@@ -70,13 +70,14 @@ namespace DockFloat
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
 
 #if DEBUG
-            // Avoid squiggels in the XAML designer
+            // Avoid squiggles in the XAML designer
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 #endif
 
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Application.Current.MainWindow.StateChanged += (s, e) =>
             {
+                // Hide/show floating windows on minimize/restore
                 var mainWindow = s as Window;
                 var docks = mainWindow.FindLogicalChildren<Dock>();
                 foreach(var dock in docks)

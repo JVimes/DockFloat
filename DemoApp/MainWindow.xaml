@@ -9,11 +9,11 @@
         Title="Demo" Height="350" Width="525">
     <DockPanel>
         <df:Dock DockPanel.Dock="Left">
-            <TextBlock Background="LightBlue" Text="Tool panel 1" MinWidth="120"/>
+            <TextBlock Background="DeepSkyBlue" Text="Tool panel 1" MinWidth="120"/>
         </df:Dock>
         <df:Dock Grid.Column="2" DockPanel.Dock="Right">
-            <TextBlock Background="LightGreen" Text="Tool panel 2" MinWidth="120"/>
+            <TextBlock Background="#60F0" Text="Tool panel 2" MinWidth="120"/>
         </df:Dock>
-        <TextBlock Background="LightYellow" Text="Main UI"/>
+        <TextBlock Text="Main UI"/>
     </DockPanel>
 </Window>
