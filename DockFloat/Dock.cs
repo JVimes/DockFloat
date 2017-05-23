@@ -50,7 +50,7 @@ namespace DockFloat
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control
     {
-        Window floatingWindow;
+        Window floatWindow;
 
         public FrameworkElement Content
         {
@@ -58,12 +58,7 @@ namespace DockFloat
             set { SetValue(ContentProperty, value); }
         }
         public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata((s, e) =>
-            {
-                var content = e.NewValue as FrameworkElement;
-                content.RemoveFromParent();
-                (s as Dock).AddLogicalChild(content);
-            }));
+            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata(ContentChanged));
 
         static Dock()
         {
@@ -79,45 +74,49 @@ namespace DockFloat
                 var mainWindow = s as Window;
                 var docks = mainWindow.FindLogicalChildren<Dock>();
                 foreach (var dock in docks)
-                    if (dock.floatingWindow != null)
-                        dock.floatingWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
+                    if (dock.floatWindow != null)
+                        dock.floatWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
             };
         }
 
         public override void OnApplyTemplate()
         {
             var button = GetTemplateChild("PART_PopOutButton") as Button;
-            button.Click += (s, e) =>
-            {
-                var position = Content.PointToScreen(new Point(0, 0));
-                PopOut(position.X, position.Y);
-            };
+            button.Click += (s, e) => PopOut();
         }
 
-        private void PopOut(double x, double y)
+        private static void ContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var content = e.NewValue as FrameworkElement;
+            content.RemoveFromParent();
+            (d as Dock).AddLogicalChild(content);
+        }
+
+        private void PopOut()
         {
             if (Content == null) return;
 
-            var width = Content.ActualWidth;
-            var height = Content.ActualHeight;
+            var previousWidth = Content.ActualWidth;
+            var previousHeight = Content.ActualHeight;
 
             Content.RemoveFromParent();
 
-            Content.Width = width;
-            Content.Height = height;
+            Content.Width = previousWidth;
+            Content.Height = previousHeight;
             Content.HorizontalAlignment = HorizontalAlignment.Stretch;
             Content.VerticalAlignment = VerticalAlignment.Stretch;
-            
-            floatingWindow = new FloatWindow(Content, DockIn) { Left = x, Top = y };
+
+            var position = Content.PointToScreen(new Point(0, 0));
+            floatWindow = new FloatWindow(Content, DockIn) { Left = position.X, Top = position.Y };
             Content = null; // Triggers a binding
-            floatingWindow.Show();
+            floatWindow.Show();
         }
 
         private void DockIn()
         {
-            Content = floatingWindow.Content as FrameworkElement;
-            floatingWindow.Close();
-            floatingWindow = null;
+            Content = floatWindow.Content as FrameworkElement;
+            floatWindow.Close();
+            floatWindow = null;
         }
     }
 }
