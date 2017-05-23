@@ -116,18 +116,14 @@ namespace DockFloat
             {
                 Left = x,
                 Top = y,
-                MinWidth = 200,
-                ShowInTaskbar = false,
-                SizeToContent = SizeToContent.WidthAndHeight,
                 Content = floatee,
-                Dock = (windowToDock) => DockIn(windowToDock, homeDock),
+                DockIn = (windowToDock) => DockIn(windowToDock, homeDock),
             };
             window.Loaded += (s2, e2) =>
             {
                 window.SizeToContent = SizeToContent.Manual;
                 floatee.Width = double.NaN;
                 floatee.Height = double.NaN;
-                homeDock.floatingWindow?.Close();
                 homeDock.floatingWindow = window;
             };
             window.Show();

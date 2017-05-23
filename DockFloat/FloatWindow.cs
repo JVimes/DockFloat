@@ -55,14 +55,14 @@ namespace DockFloat
         ///   This will be called when the dock button is clicked. A reference
         ///   to the window is passed in.
         /// </summary>
-        public Action<FloatWindow> Dock { get; set; }
+        public Action<FloatWindow> DockIn { get; set; }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var dockButton = GetTemplateChild("PART_DockButton") as Button;
             dockButton.Click += (s, e) => Close();
-            Closed += (s, e) => Dock(this);
+            Closed += (s, e) => DockIn(this);
         }
     }
 }

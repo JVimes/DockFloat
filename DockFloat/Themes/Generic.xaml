@@ -72,18 +72,19 @@
     </Style>
 
     <Style TargetType="local:FloatWindow"
-        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
+           xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
                 <shell:WindowChrome CaptionHeight="18" GlassFrameThickness="2"/>
             </Setter.Value>
         </Setter>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+        <Setter Property="SizeToContent" Value="WidthAndHeight"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:FloatWindow">
-
                     <Border Padding="1" UseLayoutRounding="True">
                         <!-- ^ Lets the active-window highlighting (colored border around window) show through from the OS WindowChrome -->
                         <Border Background="{TemplateBinding Background}">
@@ -114,16 +115,16 @@
                                                         Path=(shell:WindowChrome.WindowChrome).CaptionHeight,
                                                         Mode=OneWay}">
                                     <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
-                                                       DockPanel.Dock="Left"
-                                                       HorizontalAlignment="Left"
-                                                       VerticalAlignment="Center"
-                                                       Margin="5,0,0,0"/>
+                                               DockPanel.Dock="Left"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Margin="5,0,0,0"/>
                                     <Button x:Name="PART_DockButton"
-                                                    DockPanel.Dock="Right"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Margin="1"
-                                                    shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                                            DockPanel.Dock="Right"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Margin="1"
+                                            shell:WindowChrome.IsHitTestVisibleInChrome="True">
                                         <Button.Template>
                                             <ControlTemplate>
                                                 <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
@@ -155,10 +156,9 @@
                             </DockPanel>
                         </Border>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
+    
 </ResourceDictionary>
