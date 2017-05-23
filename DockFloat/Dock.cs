@@ -81,6 +81,7 @@ namespace DockFloat
 
         public override void OnApplyTemplate()
         {
+            base.OnApplyTemplate();
             var button = GetTemplateChild("PART_PopOutButton") as Button;
             button.Click += (s, e) => PopOut();
         }
