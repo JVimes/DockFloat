@@ -60,20 +60,18 @@ namespace DockFloat
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata((s, e) =>
             {
-                var floatee = e.NewValue as FrameworkElement;
-                floatee.RemoveFromParent();
-                (s as Dock).AddLogicalChild(floatee);
+                var content = e.NewValue as FrameworkElement;
+                content.RemoveFromParent();
+                (s as Dock).AddLogicalChild(content);
             }));
 
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
-
 #if DEBUG
             // Avoid squiggles in the XAML designer
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 #endif
-
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Application.Current.MainWindow.StateChanged += (s, e) =>
             {

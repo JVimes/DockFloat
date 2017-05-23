@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -44,13 +45,13 @@ namespace DockFloat
     ///     <MyNamespace:FloatWindow/>
     ///
     /// </summary>
+    [TemplatePart(Name = "PART_DockButton", Type = typeof(ButtonBase))]
     public class FloatWindow : Window
     {
         public FloatWindow(FrameworkElement content, Action dockIn)
         {
             Content = content;
             DockIn = dockIn;
-
             Loaded += (s, e) =>
             {
                 SizeToContent = SizeToContent.Manual;
