@@ -70,7 +70,7 @@ namespace DockFloat
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
 
 #if DEBUG
-            // Avoid squiggels in the XAML designer
+            // Avoid squiggles in the XAML designer
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 #endif
 
@@ -80,8 +80,8 @@ namespace DockFloat
                 // Hide/show floating windows on minimize/restore
                 var mainWindow = s as Window;
                 var docks = mainWindow.FindLogicalChildren<Dock>();
-                foreach(var dock in docks)
-                    if(dock.floatingWindow != null)
+                foreach (var dock in docks)
+                    if (dock.floatingWindow != null)
                         dock.floatingWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
             };
         }
@@ -92,49 +92,34 @@ namespace DockFloat
             button.Click += (s, e) =>
             {
                 var position = Content.PointToScreen(new Point(0, 0));
-                PopOut(Content, position.X, position.Y);
-                Content = null; // Triggers a binding
+                PopOut(position.X, position.Y);
             };
         }
 
-        private static void PopOut(FrameworkElement floatee, double x, double y)
+        private void PopOut(double x, double y)
         {
-            if (floatee == null) return;
+            if (Content == null) return;
 
-            var width = floatee.ActualWidth;
-            var height = floatee.ActualHeight;
-            var homeDock = floatee.Parent as Dock;
+            var width = Content.ActualWidth;
+            var height = Content.ActualHeight;
 
-            floatee.RemoveFromParent();
+            Content.RemoveFromParent();
 
-            floatee.Width = width;
-            floatee.Height = height;
-            floatee.HorizontalAlignment = HorizontalAlignment.Stretch;
-            floatee.VerticalAlignment = VerticalAlignment.Stretch;
-
-            var window = new FloatWindow()
-            {
-                Left = x,
-                Top = y,
-                Content = floatee,
-                DockIn = (windowToDock) => DockIn(windowToDock, homeDock),
-            };
-            window.Loaded += (s2, e2) =>
-            {
-                window.SizeToContent = SizeToContent.Manual;
-                floatee.Width = double.NaN;
-                floatee.Height = double.NaN;
-                homeDock.floatingWindow = window;
-            };
-            window.Show();
+            Content.Width = width;
+            Content.Height = height;
+            Content.HorizontalAlignment = HorizontalAlignment.Stretch;
+            Content.VerticalAlignment = VerticalAlignment.Stretch;
+            
+            floatingWindow = new FloatWindow(Content, DockIn) { Left = x, Top = y };
+            Content = null; // Triggers a binding
+            floatingWindow.Show();
         }
 
-        private static void DockIn(Window window, Dock dock)
+        private void DockIn()
         {
-            var floatee = window.Content as FrameworkElement;
-            dock.Content = floatee;
-            window.Close();
-            dock.floatingWindow = null;
+            Content = floatingWindow.Content as FrameworkElement;
+            floatingWindow.Close();
+            floatingWindow = null;
         }
     }
 }
