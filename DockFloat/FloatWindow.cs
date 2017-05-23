@@ -71,7 +71,7 @@ namespace DockFloat
         {
             base.OnApplyTemplate();
             var dockButton = GetTemplateChild("PART_DockButton") as Button;
-            dockButton.Click += (s, e) => Close();
+            dockButton.Click += (s, e) => Close(); // Fires Closed event, see next line.
             Closed += (s, e) => dockIn();
         }
     }
