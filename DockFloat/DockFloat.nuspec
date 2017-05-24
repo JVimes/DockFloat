@@ -8,7 +8,7 @@
     <owners>$author$</owners>
     <licenseUrl>https://gitlab.com/jvimes/DockFloat/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://gitlab.com/jvimes/DockFloat/</projectUrl>
-    <!-- <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl> -->
+    <iconUrl>https://gitlab.com/jvimes/DockFloat/raw/84f4846cdfa2911d975d7a29876a8d541b64900a/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <!-- <releaseNotes>Summary of changes made in this release of the package.</releaseNotes> -->
