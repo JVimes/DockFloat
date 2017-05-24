@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DockFloat")]
-[assembly: AssemblyDescription("A simple library for floatable, dockable UI elements.")]
+[assembly: AssemblyDescription("A simple library for floatable, dockable UI elements in WPF.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("John Burak")]
 [assembly: AssemblyProduct("DockFloat")]
