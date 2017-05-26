@@ -63,10 +63,10 @@ namespace DockFloat
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
-#if DEBUG
+
             // Avoid squiggles in the XAML designer
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
-#endif
+
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Application.Current.MainWindow.StateChanged += (s, e) =>
             {
