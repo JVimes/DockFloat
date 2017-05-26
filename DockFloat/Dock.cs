@@ -109,6 +109,10 @@ namespace DockFloat
 
             var position = Content.PointToScreen(new Point(0, 0));
             floatWindow = new FloatWindow(Content, DockIn) { Left = position.X, Top = position.Y };
+
+            var binding = new Binding("Background") { Source = this };
+            floatWindow.SetBinding(BackgroundProperty, binding);
+
             Content = null; // Triggers a binding
             floatWindow.Show();
         }
