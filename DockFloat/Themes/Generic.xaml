@@ -20,49 +20,70 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
+                            <local:TopOrSideConverter x:Key="TopOrSideConverter"/>
                         </Border.Resources>
                         <Grid>
-                            <ContentPresenter x:Name="presenter"/>
+                            <DockPanel>
+                                <!-- Spacer for when FloatButtonOverContent is set -->
+                                <Grid IsHitTestVisible="False" Margin="1"
+                                      Height="{Binding Height, ElementName=PART_PopOutButton}"
+                                      Width="{Binding Width, ElementName=PART_PopOutButton}">
+                                    <Grid.Style>
+                                        <Style TargetType="Grid">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                            <Setter Property="DockPanel.Dock">
+                                                <Setter.Value>
+                                                    <MultiBinding Converter="{StaticResource TopOrSideConverter}">
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                                 Path="ActualHeight"/>
+                                                        <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                                                 Path="ActualWidth"/>
+                                                    </MultiBinding>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding FloatButtonOverContent, RelativeSource={RelativeSource TemplatedParent}}"
+                                                             Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Grid.Style>
+                                </Grid>
+                                <ContentPresenter x:Name="presenter"/>
+                            </DockPanel>
                             <Button x:Name="PART_PopOutButton"
                                     ToolTip="Pop this panel out into its own window"
                                     HorizontalAlignment="Right"
-                                    VerticalAlignment="Top">
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Margin" Value="1"/>
-                                        <Setter Property="Padding" Value="0"/>
-                                        <Setter Property="Width"  Value="16"/>
-                                        <Setter Property="Height" Value="16"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border BorderThickness="{TemplateBinding Padding}"
-                                                            Width="{TemplateBinding Width}"
-                                                            Height="{TemplateBinding Height}"
-                                                            SnapsToDevicePixels="True">
-                                                        <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-                                                            <Rectangle Width="16" Height="16">
-                                                                <Rectangle.Fill>
-                                                                    <DrawingBrush>
-                                                                        <DrawingBrush.Drawing>
-                                                                            <DrawingGroup>
-                                                                                <DrawingGroup.Children>
-                                                                                    <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
-                                                                                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0.9999,-0.000199999999999534L0.9999,3.0008 4.7139,3.0008 1.0119,6.9998 6.4409,6.9998 0.6179,12.8438 3.1499,15.4288 9.1499,9.3008 9.1499,15.2508 12.9999,11.0888 12.9999,15.9998 15.9999,15.9998 15.9999,-0.000199999999999534z" />
-                                                                                    <GeometryDrawing Brush="#FF424242" Geometry="F1M14,1L2,1 2,2 14,2 14,15 15,15 15,1z M5.151,4L12,4 12,10.697 10.15,12.697 10.15,6.85 3.15,14 2.023,12.85 8.85,6 3.3,6z" />
-                                                                                </DrawingGroup.Children>
-                                                                            </DrawingGroup>
-                                                                        </DrawingBrush.Drawing>
-                                                                    </DrawingBrush>
-                                                                </Rectangle.Fill>
-                                                            </Rectangle>
-                                                        </Viewbox>
-                                                    </Border>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
+                                    VerticalAlignment="Top"
+                                    Margin="1" Padding="0"
+                                    Width="16" Height="16">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border BorderThickness="{TemplateBinding Padding}"
+                                                Width="{TemplateBinding Width}"
+                                                Height="{TemplateBinding Height}"
+                                                SnapsToDevicePixels="True">
+                                            <Viewbox Width="16" Height="16" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                                                <Rectangle Width="16" Height="16">
+                                                    <Rectangle.Fill>
+                                                        <DrawingBrush>
+                                                            <DrawingBrush.Drawing>
+                                                                <DrawingGroup>
+                                                                    <DrawingGroup.Children>
+                                                                        <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                                                                        <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M0.9999,-0.000199999999999534L0.9999,3.0008 4.7139,3.0008 1.0119,6.9998 6.4409,6.9998 0.6179,12.8438 3.1499,15.4288 9.1499,9.3008 9.1499,15.2508 12.9999,11.0888 12.9999,15.9998 15.9999,15.9998 15.9999,-0.000199999999999534z" />
+                                                                        <GeometryDrawing Brush="#FF424242" Geometry="F1M14,1L2,1 2,2 14,2 14,15 15,15 15,1z M5.151,4L12,4 12,10.697 10.15,12.697 10.15,6.85 3.15,14 2.023,12.85 8.85,6 3.3,6z" />
+                                                                    </DrawingGroup.Children>
+                                                                </DrawingGroup>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Viewbox>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Button.Template>
                             </Button>
                         </Grid>
                     </Border>

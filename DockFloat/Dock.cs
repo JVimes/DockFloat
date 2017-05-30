@@ -80,7 +80,15 @@ namespace DockFloat
             DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata(
                 (d, e) => { (d as Dock).AddLogicalChild(e.NewValue as FrameworkElement); }
                 ));
-        
+
+        public bool FloatButtonOverContent
+        {
+            get { return (bool)GetValue(ButtonOverlapsContentProperty); }
+            set { SetValue(ButtonOverlapsContentProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonOverlapsContentProperty =
+            DependencyProperty.Register("FloatButtonOverContent", typeof(bool), typeof(Dock), new PropertyMetadata(true));
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -128,6 +136,7 @@ namespace DockFloat
                 Left = dockPosition.X,
                 Top = dockPosition.Y,
                 Background = Background,
+                SizeToContent = SizeToContent.WidthAndHeight,
             };
             floatWindow.Show();
         }

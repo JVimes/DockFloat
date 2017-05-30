@@ -8,12 +8,15 @@
         mc:Ignorable="d"
         Title="Demo" Height="350" Width="525">
     <DockPanel>
-        <df:Dock Background="DeepSkyBlue" DockPanel.Dock="Left">
-            <TextBlock Text="Tool panel 1" MinWidth="120"/>
+        <df:Dock DockPanel.Dock="Left" Background="SkyBlue" Width="120">
+            <local:DummyContent Text="Default dock (button overlaps content). Dock background applies to floating window, as well."/>
         </df:Dock>
-        <df:Dock Background="LightBlue" Grid.Column="2" DockPanel.Dock="Right">
-            <TextBlock Background="#6FF0" Text="Tool panel 2" MinWidth="120"/>
+        <df:Dock Grid.Column="2" DockPanel.Dock="Right" Width="130" FloatButtonOverContent="False" Background="LightGreen">
+            <local:DummyContent Text="FloatButtonOverContent is False"/>
         </df:Dock>
-        <TextBlock Text="Main UI"/>
+        <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" FloatButtonOverContent="False">
+            <local:DummyContent Text="FloatButtonOverContent is False, and panel is wide, so extra space is on the right instead of top (when docked)."/>
+        </df:Dock>
+        <TextBlock Text="Main UI" Background="LightGray"/>
     </DockPanel>
 </Window>
