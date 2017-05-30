@@ -52,14 +52,6 @@ namespace DockFloat
     {
         Window floatWindow;
 
-        public FrameworkElement Content
-        {
-            get { return (FrameworkElement)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
-        }
-        public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata(ContentChanged));
-
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
@@ -70,7 +62,7 @@ namespace DockFloat
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
             Application.Current.MainWindow.StateChanged += (s, e) =>
             {
-                // Hide/show floating windows on minimize/restore
+                // Hide/show floating windows on minimize/restore of main window
                 var mainWindow = s as Window;
                 var docks = mainWindow.FindLogicalChildren<Dock>();
                 foreach (var dock in docks)
@@ -79,6 +71,16 @@ namespace DockFloat
             };
         }
 
+        public FrameworkElement Content
+        {
+            get { return (FrameworkElement)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
+        }
+        public static readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata(
+                (d, e) => { (d as Dock).AddLogicalChild(e.NewValue as FrameworkElement); }
+                ));
+        
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -86,40 +88,53 @@ namespace DockFloat
             button.Click += (s, e) => PopOut();
         }
 
-        private static void ContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var content = e.NewValue as FrameworkElement;
-            content.RemoveFromParent();
-            (d as Dock).AddLogicalChild(content);
-        }
-
         private void PopOut()
         {
             if (Content == null) return;
 
-            var previousWidth = Content.ActualWidth;
-            var previousHeight = Content.ActualHeight;
+            Visibility = Visibility.Collapsed;
 
-            Content.RemoveFromParent();
+            var floatContent = Content;
+            var horizontalAlignment = floatContent.HorizontalAlignment;
+            var verticalAlignment = floatContent.VerticalAlignment;
+            var width = floatContent.Width;
+            var height = floatContent.Height;
+            var actualWidth = floatContent.ActualWidth;
+            var actualHeight = floatContent.ActualHeight;
 
-            Content.Width = previousWidth;
-            Content.Height = previousHeight;
-            Content.HorizontalAlignment = HorizontalAlignment.Stretch;
-            Content.VerticalAlignment = VerticalAlignment.Stretch;
+            Content = null;
 
-            var position = Content.PointToScreen(new Point(0, 0));
-            floatWindow = new FloatWindow(Content, DockIn) { Left = position.X, Top = position.Y };
+            floatContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+            floatContent.VerticalAlignment = VerticalAlignment.Stretch;
+            floatContent.Width = actualWidth;
+            floatContent.Height = actualHeight;
 
-            var binding = new Binding("Background") { Source = this };
-            floatWindow.SetBinding(BackgroundProperty, binding);
+            Action dockIn = () =>
+            {
+                var content = floatWindow.Content as FrameworkElement;
+                TerminateFloatWindow();
+                content.HorizontalAlignment = horizontalAlignment;
+                content.VerticalAlignment = verticalAlignment;
+                content.Width = width;
+                content.Height = height;
+                Content = content;
+                Visibility = Visibility.Visible;
+            };
 
-            Content = null; // Triggers a binding
+            var dockPosition = PointToScreen(new Point(0, 0));
+
+            floatWindow = new FloatWindow(floatContent, dockIn)
+            {
+                Left = dockPosition.X,
+                Top = dockPosition.Y,
+                Background = Background,
+            };
             floatWindow.Show();
         }
 
-        private void DockIn()
+        private void TerminateFloatWindow()
         {
-            Content = floatWindow.Content as FrameworkElement;
+            floatWindow.Content = null;
             floatWindow.Close();
             floatWindow = null;
         }
