@@ -103,6 +103,8 @@ namespace DockFloat
             Visibility = Visibility.Collapsed;
 
             var floatContent = Content;
+            var dataContext = floatContent.DataContext;
+
             var horizontalAlignment = floatContent.HorizontalAlignment;
             var verticalAlignment = floatContent.VerticalAlignment;
             var width = floatContent.Width;
@@ -111,7 +113,8 @@ namespace DockFloat
             var actualHeight = floatContent.ActualHeight;
 
             Content = null;
-
+            
+            // Set things we want to carry over into the floating window
             floatContent.HorizontalAlignment = HorizontalAlignment.Stretch;
             floatContent.VerticalAlignment = VerticalAlignment.Stretch;
             floatContent.Width = actualWidth;
@@ -129,12 +132,17 @@ namespace DockFloat
                 Visibility = Visibility.Visible;
             };
 
-            var dockPosition = PointToScreen(new Point(0, 0));
+            var position = PointToScreen(new Point(0, 0));
+            position.X -= 10; // Offset so user knows it popped out
+            position.Y -= 10;
+            position.X = Math.Max(position.X, 0); // Don't go off screen
+            position.Y = Math.Max(position.Y, 0);
 
             floatWindow = new FloatWindow(floatContent, dockIn)
             {
-                Left = dockPosition.X,
-                Top = dockPosition.Y,
+                DataContext = dataContext,
+                Left = position.X,
+                Top = position.Y,
                 Background = Background,
                 SizeToContent = SizeToContent.WidthAndHeight,
             };
