@@ -83,10 +83,10 @@ namespace DockFloat
 
         public bool FloatButtonOverContent
         {
-            get { return (bool)GetValue(ButtonOverlapsContentProperty); }
-            set { SetValue(ButtonOverlapsContentProperty, value); }
+            get { return (bool)GetValue(FloatButtonOverContentProperty); }
+            set { SetValue(FloatButtonOverContentProperty, value); }
         }
-        public static readonly DependencyProperty ButtonOverlapsContentProperty =
+        public static readonly DependencyProperty FloatButtonOverContentProperty =
             DependencyProperty.Register("FloatButtonOverContent", typeof(bool), typeof(Dock), new PropertyMetadata(true));
 
         public override void OnApplyTemplate()
