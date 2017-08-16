@@ -145,6 +145,7 @@ namespace DockFloat
                 Top = position.Y,
                 Background = Background,
                 SizeToContent = SizeToContent.WidthAndHeight,
+                Owner = Application.Current.MainWindow
             };
             floatWindow.Show();
         }
