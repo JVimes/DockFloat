@@ -5,6 +5,7 @@
 
     <Style TargetType="{x:Type local:Dock}">
         <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Dock}">

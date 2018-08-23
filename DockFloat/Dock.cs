@@ -31,15 +31,20 @@ namespace DockFloat
             if (System.ComponentModel.DesignerProperties.GetIsInDesignMode(new DependencyObject())) return;
 
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-            Application.Current.MainWindow.StateChanged += (s, e) =>
-            {
-                // Hide/show floating windows on minimize/restore of main window
-                var mainWindow = s as Window;
-                var docks = mainWindow.FindLogicalChildren<Dock>();
-                foreach (var dock in docks)
-                    if (dock.floatWindow != null)
-                        dock.floatWindow.Visibility = mainWindow.WindowState == WindowState.Minimized ? Visibility.Collapsed : Visibility.Visible;
-            };
+            Application.Current.MainWindow.StateChanged += SyncMainWindowStateToPopUp;
+        }
+
+        private static void SyncMainWindowStateToPopUp(object sender, EventArgs e)
+        {
+            var mainWindow = sender as Window;
+            var docksWithFloatWindows = from dock in mainWindow.FindLogicalChildren<Dock>()
+                                        where dock.floatWindow != null
+                                        select dock;
+            foreach (var dock in docksWithFloatWindows)
+                dock.floatWindow.Visibility =
+                    mainWindow.WindowState == WindowState.Minimized ?
+                    Visibility.Collapsed :
+                    Visibility.Visible;
         }
 
         public FrameworkElement Content
@@ -48,9 +53,15 @@ namespace DockFloat
             set { SetValue(ContentProperty, value); }
         }
         public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock), new PropertyMetadata(
-                (d, e) => { (d as Dock).AddLogicalChild(e.NewValue as FrameworkElement); }
-                ));
+            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock),
+                new PropertyMetadata(MakeContentLogicalChild));
+
+        private static void MakeContentLogicalChild(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var dock = d as Dock;
+            var newContent = e.NewValue as FrameworkElement;
+            dock.AddLogicalChild(newContent);
+        }
 
         public bool ButtonOverlapsContent
         {
@@ -85,13 +96,13 @@ namespace DockFloat
 
             Content = null;
 
-            // Set things we want to carry over into the floating window
+            // Set properties we want to persist in the floating window
             floatContent.HorizontalAlignment = HorizontalAlignment.Stretch;
             floatContent.VerticalAlignment = VerticalAlignment.Stretch;
             floatContent.Width = actualWidth;
             floatContent.Height = actualHeight;
 
-            Action dockIn = () =>
+            void dockIn()
             {
                 var content = floatWindow.Content as FrameworkElement;
                 TerminateFloatWindow();
@@ -101,7 +112,7 @@ namespace DockFloat
                 content.Height = height;
                 Content = content;
                 Visibility = Visibility.Visible;
-            };
+            }
 
             var position = PointToScreen(new Point(0, 0));
             position.X -= 10; // Offset so user knows it popped out

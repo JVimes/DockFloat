@@ -8,15 +8,23 @@
         mc:Ignorable="d"
         Title="Demo" Height="350" Width="525">
     <DockPanel>
+        <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel. -->
         <df:Dock DockPanel.Dock="Left" Background="SkyBlue" Width="120">
-            <local:DummyContent Text="Default dock (button overlaps content). Dock background applies to floating window, as well."/>
+            <local:DummyContent>
+                <TextBlock TextWrapping="Wrap">
+                    <TextBlock Margin="0,0,0,5" FontWeight="DemiBold">Default</TextBlock>
+                    <TextBlock>Dock background applies to floating window.</TextBlock>
+                </TextBlock>
+            </local:DummyContent>
         </df:Dock>
         <df:Dock DockPanel.Dock="Right" Width="130.5" ButtonOverlapsContent="False" Background="LightGreen">
-            <local:DummyContent Text="ButtonOverlapsContent is False"/>
+            <local:DummyContent Content="ButtonOverlapsContent is False"/>
         </df:Dock>
         <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <local:DummyContent Text="ButtonOverlapsContent is False, and panel is wide, so extra space is on the right instead of top (when docked)."/>
+            <local:DummyContent Content="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
         </df:Dock>
-        <TextBlock Text="Main UI" Background="LightGray"/>
+        <StackPanel Background="LightGray">
+            <TextBlock Text="Main UI"/>
+        </StackPanel>
     </DockPanel>
 </Window>

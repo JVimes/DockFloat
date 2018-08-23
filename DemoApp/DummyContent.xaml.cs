@@ -17,29 +17,11 @@ using System.Windows.Shapes;
 
 namespace DemoApp
 {
-    /// <summary>
-    /// Interaction logic for DummyContent.xaml
-    /// </summary>
-    public partial class DummyContent : UserControl, INotifyPropertyChanged
+    public partial class DummyContent : ContentControl
     {
         public DummyContent()
         {
             InitializeComponent();
         }
-
-        string text = "Content";
-        public string Text
-        {
-            get { return text; }
-            set { if (text == value) return; text = value; OnPropertyChanged(); }
-        }
-
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
     }
 }
