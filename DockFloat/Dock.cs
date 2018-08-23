@@ -17,6 +17,12 @@ using System.Windows.Shapes;
 
 namespace DockFloat
 {
+    /// <summary> 
+    ///   Use this as a container for the UI elements that will be docked. Note,
+    ///   this class has nothing to do with <see
+    ///   cref="System.Windows.Controls.Dock"/> or WPF's <see cref="DockPanel"/>
+    ///   class.
+    /// </summary>
     [ContentProperty("Content")]
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control

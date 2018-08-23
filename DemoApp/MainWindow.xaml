@@ -7,24 +7,51 @@
         xmlns:df="clr-namespace:DockFloat;assembly=DockFloat"
         mc:Ignorable="d"
         Title="Demo" Height="350" Width="525">
+    <Window.Resources>
+        <SolidColorBrush x:Key="annotationBrush" Color="#C00"/>
+        <Style x:Key="annotation" TargetType="Border">
+            <Setter Property="BorderBrush" Value="{StaticResource annotationBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="TextElement.Foreground" Value="{StaticResource annotationBrush}" />
+            <Setter Property="TextElement.FontSize" Value="10" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
     <DockPanel>
-        <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel. -->
+        <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel classes. -->
         <df:Dock DockPanel.Dock="Left" Background="SkyBlue" Width="120">
-            <local:DummyContent>
-                <TextBlock TextWrapping="Wrap">
+            <Border Style="{StaticResource annotation}">
+                <StackPanel>
+                    <TextBlock TextElement.Foreground="Black" TextElement.FontSize="12" Margin="0,0,0,10"
+                               Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
                     <TextBlock Margin="0,0,0,5" FontWeight="DemiBold">Default</TextBlock>
                     <TextBlock>Dock background applies to floating window.</TextBlock>
-                </TextBlock>
-            </local:DummyContent>
+                </StackPanel>
+            </Border>
         </df:Dock>
         <df:Dock DockPanel.Dock="Right" Width="130.5" ButtonOverlapsContent="False" Background="LightGreen">
-            <local:DummyContent Content="ButtonOverlapsContent is False"/>
+            <Border Style="{StaticResource annotation}">
+                <StackPanel>
+                    <CheckBox x:Name="bindingTest2" TextElement.FontSize="12"
+                              Content="BindingTest2" IsChecked="True" Margin="0,0,0,10"/>
+                    <TextBlock Text="ButtonOverlapsContent is False"/>
+                </StackPanel>
+            </Border>
         </df:Dock>
         <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <local:DummyContent Content="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
+            <Border Style="{StaticResource annotation}">
+                <TextBlock Text="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
+            </Border>
         </df:Dock>
         <StackPanel Background="LightGray">
-            <TextBlock Text="Main UI"/>
+            <TextBlock Text="Main UI" Margin="0,0,0,10"/>
+            <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,10"/>
+            <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}"/>
         </StackPanel>
     </DockPanel>
 </Window>
