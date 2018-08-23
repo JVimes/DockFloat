@@ -11,11 +11,11 @@
         <df:Dock DockPanel.Dock="Left" Background="SkyBlue" Width="120">
             <local:DummyContent Text="Default dock (button overlaps content). Dock background applies to floating window, as well."/>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Right" Width="130.5" FloatButtonOverContent="False" Background="LightGreen">
-            <local:DummyContent Text="FloatButtonOverContent is False"/>
+        <df:Dock DockPanel.Dock="Right" Width="130.5" ButtonOverlapsContent="False" Background="LightGreen">
+            <local:DummyContent Text="ButtonOverlapsContent is False"/>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" FloatButtonOverContent="False">
-            <local:DummyContent Text="FloatButtonOverContent is False, and panel is wide, so extra space is on the right instead of top (when docked)."/>
+        <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" ButtonOverlapsContent="False">
+            <local:DummyContent Text="ButtonOverlapsContent is False, and panel is wide, so extra space is on the right instead of top (when docked)."/>
         </df:Dock>
         <TextBlock Text="Main UI" Background="LightGray"/>
     </DockPanel>

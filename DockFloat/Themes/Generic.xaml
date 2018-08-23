@@ -25,7 +25,7 @@
                         </Border.Resources>
                         <Grid>
                             <DockPanel>
-                                <!-- Spacer for when FloatButtonOverContent is set -->
+                                <!-- Spacer for when ButtonOverlapsContent is set -->
                                 <Grid IsHitTestVisible="False" Margin="1"
                                       Height="{Binding Height, ElementName=PART_PopOutButton}"
                                       Width="{Binding Width, ElementName=PART_PopOutButton}">
@@ -43,7 +43,7 @@
                                                 </Setter.Value>
                                             </Setter>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding FloatButtonOverContent, RelativeSource={RelativeSource TemplatedParent}}"
+                                                <DataTrigger Binding="{Binding ButtonOverlapsContent, RelativeSource={RelativeSource TemplatedParent}}"
                                                              Value="True">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                 </DataTrigger>
