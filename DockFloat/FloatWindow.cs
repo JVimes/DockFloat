@@ -16,63 +16,33 @@ using System.Windows.Shapes;
 
 namespace DockFloat
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:DockFloat"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:DockFloat;assembly=DockFloat"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:FloatWindow/>
-    ///
-    /// </summary>
     [TemplatePart(Name = "PART_DockButton", Type = typeof(ButtonBase))]
     public class FloatWindow : Window
     {
-        Action dockIn;
-
-        public FloatWindow(FrameworkElement content, Action dockIn)
-        {
-            Content = content;
-            this.dockIn = dockIn;
-            Loaded += (s, e) =>
-            {
-                SizeToContent = SizeToContent.Manual;
-                content.Width = double.NaN;
-                content.Height = double.NaN;
-            };
-        }
-
         static FloatWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FloatWindow), new FrameworkPropertyMetadata(typeof(FloatWindow)));
         }
 
+        public FloatWindow(FrameworkElement content)
+        {
+            ConfigureContentForFloating(content);
+            Content = content;
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            var dockButton = GetTemplateChild("PART_DockButton") as Button;
-            dockButton.Click += (s, e) => Close(); // Fires Closed event, see next line.
-            Closed += (s, e) => dockIn();
+            var dockInButton = GetTemplateChild("PART_DockButton") as Button;
+            dockInButton.Click += (s, e) => Close();
+        }
+
+        static void ConfigureContentForFloating(FrameworkElement content)
+        {
+            content.Width = double.NaN;
+            content.Height = double.NaN;
+            content.HorizontalAlignment = HorizontalAlignment.Stretch;
+            content.VerticalAlignment = VerticalAlignment.Stretch;
         }
     }
 }

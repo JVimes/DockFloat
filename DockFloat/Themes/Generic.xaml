@@ -17,12 +17,11 @@
                                 <Setter Property="Visibility" Value="Visible"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Content, ElementName=presenter}"
-                                                     Value="{x:Null}">
+                                                 Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                            <local:TopOrSideConverter x:Key="TopOrSideConverter"/>
                         </Border.Resources>
                         <Grid>
                             <DockPanel>
@@ -35,7 +34,7 @@
                                             <Setter Property="Visibility" Value="Visible"/>
                                             <Setter Property="DockPanel.Dock">
                                                 <Setter.Value>
-                                                    <MultiBinding Converter="{StaticResource TopOrSideConverter}">
+                                                    <MultiBinding Converter="{x:Static local:TopOrSideConverter.Instance}">
                                                         <Binding RelativeSource="{RelativeSource TemplatedParent}"
                                                                  Path="ActualHeight"/>
                                                         <Binding RelativeSource="{RelativeSource TemplatedParent}"
@@ -102,7 +101,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="ShowInTaskbar" Value="False"/>
-        <Setter Property="SizeToContent" Value="WidthAndHeight"/>
         <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="Control.Template">
@@ -135,8 +133,8 @@
                                 </DockPanel.Style>
                                 <DockPanel x:Name="titleBar" Background="White" DockPanel.Dock="Top"
                                            Height="{Binding RelativeSource={RelativeSource TemplatedParent},
-                                                        Path=(shell:WindowChrome.WindowChrome).CaptionHeight,
-                                                        Mode=OneWay}">
+                                           Path=(shell:WindowChrome.WindowChrome).CaptionHeight,
+                                           Mode=OneWay}">
                                     <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
                                                DockPanel.Dock="Left"
                                                HorizontalAlignment="Left"

@@ -14,6 +14,8 @@ namespace DockFloat
     /// </summary>
     class TopOrSideConverter : IMultiValueConverter
     {
+        public static TopOrSideConverter Instance { get; } = new TopOrSideConverter();
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             var nullableHeight = values[0] as double?;
