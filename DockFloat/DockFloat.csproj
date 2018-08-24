@@ -53,6 +53,14 @@
   <ItemGroup>
     <Compile Include="ContentState.cs" />
     <Compile Include="TopOrSideConverter.cs" />
+    <Page Include="Themes\FloatWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Dock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
