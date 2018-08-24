@@ -26,8 +26,8 @@
     </Window.Resources>
     <DockPanel>
         <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel classes. -->
-        <df:Dock DockPanel.Dock="Left" Background="SkyBlue" Width="120">
-            <Border Style="{StaticResource annotation}">
+        <df:Dock DockPanel.Dock="Left" Background="SkyBlue">
+            <Border Style="{StaticResource annotation}" Width="120">
                 <StackPanel>
                     <TextBlock TextElement.Foreground="Black" TextElement.FontSize="12" Margin="0,0,0,10"
                                Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
@@ -45,8 +45,8 @@
                 </StackPanel>
             </Border>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Bottom" Height="75" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <Border Style="{StaticResource annotation}">
+        <df:Dock DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
+            <Border Style="{StaticResource annotation}" Height="75">
                 <TextBlock Text="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
             </Border>
         </df:Dock>
