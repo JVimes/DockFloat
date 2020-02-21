@@ -1,13 +1,15 @@
-**DockFloat** provides a simple way to float and re-dock WPF UI elements. When re-docking a window, contents go back to their original location.
+DockFloat provides a way to pop WPF elements into floating windows.
 
 ![](demo.gif)
 
-**To install**, just install the "DockFloat" NuGet package in your project.
-
-**To make an element floatable**, just wrap it in a `Dock` (demo in source code):
+To use it, install via NuGet then wrap an element in a Dock:  
 
 ```xml
 <df:Dock xmlns:df="clr-namespace:DockFloat;assembly=DockFloat">
-    <TextBlock Text="This can be floated and docked."/>
+    <TextBlock Text="This can be floated."/>
 </df:Dock>
 ```
+
+* `Dock` has some configuration properties.
+* There is a working demo in the source code.
+* Implicit styles outside the Dock have no affect in the floated window. Styles with x:Key do.
