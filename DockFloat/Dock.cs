@@ -18,11 +18,10 @@ using System.Windows.Shapes;
 
 namespace DockFloat
 {
-    /// <summary> 
-    ///   Use this as a container for the UI elements that will be docked. Note,
-    ///   this class has nothing to do with <see
-    ///   cref="System.Windows.Controls.Dock"/> or WPF's <see cref="DockPanel"/>
-    ///   class.
+    /// <summary>
+    ///   Use this as a container for the UI elements that will be docked.
+    ///   Note, this class has nothing to do with <see
+    ///   cref="System.Windows.Controls.Dock"/> or <see cref="DockPanel"/>.
     /// </summary>
     [ContentProperty("Content")]
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
@@ -31,33 +30,17 @@ namespace DockFloat
         Window floatingWindow;
         ContentState savedContentState;
 
+
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
 
+            var RunninginXamlDesigner = DesignerProperties.GetIsInDesignMode(new DependencyObject());
             if (RunninginXamlDesigner) return;
 
             Application.Current.MainWindow.StateChanged += MinimizeOrRestoreWithMainWindow;
         }
 
-        public static bool RunninginXamlDesigner { get; } =
-            DesignerProperties.GetIsInDesignMode(new DependencyObject());
-
-        static void MinimizeOrRestoreWithMainWindow(object sender, EventArgs e)
-        {
-            var mainWindow = sender as Window;
-            var floatWindows = GetAllFloatWindows(mainWindow);
-            foreach (var floatWindow in floatWindows)
-                floatWindow.Visibility =
-                    mainWindow.WindowState == WindowState.Minimized ?
-                    Visibility.Collapsed :
-                    Visibility.Visible;
-        }
-
-        static IEnumerable<Window> GetAllFloatWindows(Window mainWindow) =>
-            from dock in mainWindow.FindLogicalChildren<Dock>()
-            where dock.floatingWindow != null
-            select dock.floatingWindow;
 
         public FrameworkElement Content
         {
@@ -77,12 +60,33 @@ namespace DockFloat
             DependencyProperty.Register("ButtonOverlapsContent", typeof(bool), typeof(Dock),
                 new PropertyMetadata(true));
 
+
+        Window ParentWindow { get => Window.GetWindow(this); }
+
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var popOutButton = GetTemplateChild("PART_PopOutButton") as Button;
             popOutButton.Click += (s, e) => PopOut();
         }
+
+
+        static void MinimizeOrRestoreWithMainWindow(object sender, EventArgs e)
+        {
+            var mainWindow = sender as Window;
+            var floatWindows = GetAllFloatWindows(mainWindow);
+            foreach (var floatWindow in floatWindows)
+                floatWindow.Visibility =
+                    mainWindow.WindowState == WindowState.Minimized ?
+                    Visibility.Collapsed :
+                    Visibility.Visible;
+        }
+
+        static IEnumerable<Window> GetAllFloatWindows(Window mainWindow) =>
+            from dock in mainWindow.FindLogicalChildren<Dock>()
+            where dock.floatingWindow != null
+            select dock.floatingWindow;
 
         void PopOut()
         {
@@ -97,9 +101,6 @@ namespace DockFloat
             RestoreContentToDock();
             ShowTheDock();
         }
-
-        void HideTheDock() => Visibility = Visibility.Collapsed;
-        void ShowTheDock() => Visibility = Visibility.Visible;
 
         void SaveContentFromDock()
         {
@@ -134,7 +135,8 @@ namespace DockFloat
             floatingWindow.Show();
         }
 
-        private Window ParentWindow { get => Window.GetWindow(this); }
+        void HideTheDock() => Visibility = Visibility.Collapsed;
+        void ShowTheDock() => Visibility = Visibility.Visible;
 
         Point GetPopupPosition()
         {
