@@ -1,5 +1,4 @@
-﻿#if DEBUG
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -9,11 +8,10 @@ using System.Windows.Data;
 
 namespace DockFloat
 {
-    /// <summary>
-    /// For debugging
-    /// </summary>
-    class Converter : IValueConverter
+    class DebugConverter : IValueConverter
     {
+        public static DebugConverter Instance { get; } = new DebugConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
@@ -25,4 +23,3 @@ namespace DockFloat
         }
     }
 }
-#endif

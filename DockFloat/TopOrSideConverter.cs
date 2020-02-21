@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using Wpf = System.Windows.Controls;
 
 namespace DockFloat
 {
@@ -23,14 +24,13 @@ namespace DockFloat
             var height = nullableHeight ?? 0.0;
             var width = nullableWidth ?? 0.0;
 
-            return width > height ?
-                System.Windows.Controls.Dock.Right :
-                System.Windows.Controls.Dock.Top;
+            return
+                width > height ?
+                Wpf.Dock.Right :
+                Wpf.Dock.Top;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            return default(object[]);
-        }
+            => default;
     }
 }

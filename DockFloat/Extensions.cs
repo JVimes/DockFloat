@@ -10,11 +10,15 @@ namespace DockFloat
 {
     static class Extensions
     {
-        public static IEnumerable<T> FindLogicalChildren<T>(this DependencyObject parent) where T : DependencyObject
+        public static IEnumerable<T> FindLogicalChildren<T>(
+            this DependencyObject parent) where T : DependencyObject
         {
             if (parent == null) yield return null;
 
-            var dependencyChildren = LogicalTreeHelper.GetChildren(parent).OfType<DependencyObject>();
+            var dependencyChildren =
+                LogicalTreeHelper.GetChildren(parent)
+                                 .OfType<DependencyObject>();
+
             foreach (var child in dependencyChildren)
             {
                 if (child is T typedChild)

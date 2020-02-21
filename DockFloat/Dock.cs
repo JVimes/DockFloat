@@ -74,7 +74,8 @@ namespace DockFloat
             set => SetValue(ButtonOverlapsContentProperty, value);
         }
         public static readonly DependencyProperty ButtonOverlapsContentProperty =
-            DependencyProperty.Register("ButtonOverlapsContent", typeof(bool), typeof(Dock), new PropertyMetadata(true));
+            DependencyProperty.Register("ButtonOverlapsContent", typeof(bool), typeof(Dock),
+                new PropertyMetadata(true));
 
         public override void OnApplyTemplate()
         {
