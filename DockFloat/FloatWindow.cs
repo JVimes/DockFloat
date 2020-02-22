@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Shell;
 
 namespace DockFloat
 {
@@ -26,15 +27,37 @@ namespace DockFloat
 
         public FloatWindow(FrameworkElement content)
         {
-            ConfigureContentForFloating(content);
-            Content = content;
+            Initialized += (s, e) =>
+            {
+                SetSize(content);
+                ConfigureContentForFloating(content);
+                Content = content;
+            };
         }
+
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var dockInButton = GetTemplateChild("PART_DockButton") as Button;
             dockInButton.Click += (s, e) => Close();
+        }
+
+
+        void SetSize(FrameworkElement content)
+        {
+            var windowChrome = WindowChrome.GetWindowChrome(this);
+            var glassFrameThickness = windowChrome.GlassFrameThickness;
+            var activeWindowBorder = 2; // I think this accounts for active-window highlighting border from FloatWindow.xaml
+            var verticalChrome = windowChrome.CaptionHeight
+                                 + glassFrameThickness.Top
+                                 + glassFrameThickness.Bottom
+                                 + activeWindowBorder;
+            var horizontalChrome = glassFrameThickness.Left
+                                   + glassFrameThickness.Right
+                                   + activeWindowBorder;
+            Width = content.ActualWidth + horizontalChrome;
+            Height = content.ActualHeight + verticalChrome;
         }
 
         static void ConfigureContentForFloating(FrameworkElement content)

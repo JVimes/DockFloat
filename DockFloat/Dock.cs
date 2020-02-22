@@ -27,7 +27,7 @@ namespace DockFloat
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control
     {
-        Window floatingWindow;
+        Window floatWindow;
         ContentState savedContentState;
 
 
@@ -61,9 +61,6 @@ namespace DockFloat
                 new PropertyMetadata(true));
 
 
-        Window ParentWindow { get => Window.GetWindow(this); }
-
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -85,8 +82,8 @@ namespace DockFloat
 
         static IEnumerable<Window> GetAllFloatWindows(Window mainWindow) =>
             from dock in mainWindow.FindLogicalChildren<Dock>()
-            where dock.floatingWindow != null
-            select dock.floatingWindow;
+            where dock.floatWindow != null
+            select dock.floatWindow;
 
         void PopOut()
         {
@@ -97,7 +94,7 @@ namespace DockFloat
 
         void DockIn()
         {
-            floatingWindow = null;
+            floatWindow = null;
             RestoreContentToDock();
             ShowTheDock();
         }
@@ -116,34 +113,39 @@ namespace DockFloat
 
         void AddContentToNewFloatingWindow()
         {
-            var position = GetPopupPosition();
+            var parentWindow = Window.GetWindow(this);
+            var position = GetFloatWindowPosition(parentWindow);
 
-            floatingWindow = new FloatWindow(savedContentState.FloatContent)
+            floatWindow = new FloatWindow(savedContentState.FloatContent)
             {
                 DataContext = DataContext,
                 Left = position.X,
                 Top = position.Y,
                 Background = Background,
-                Owner = ParentWindow,
+                Owner = parentWindow,
             };
-            floatingWindow.Loaded += (s, e) =>
-            {
-                floatingWindow.Width = savedContentState.ActualWidth;
-                floatingWindow.Height = savedContentState.ActualHeight;
-            };
-            floatingWindow.Closed += (s, e) => DockIn();
-            floatingWindow.Show();
+
+            floatWindow.Closed += (s, e) => DockIn();
+            floatWindow.Show();
         }
 
         void HideTheDock() => Visibility = Visibility.Collapsed;
         void ShowTheDock() => Visibility = Visibility.Visible;
 
-        Point GetPopupPosition()
+        Point GetFloatWindowPosition(Window parentWindow)
         {
-            var dockPosition = PointToScreen(new Point(0, 0));
-            var position = new Point(dockPosition.X - 20, dockPosition.Y - 20);
-            position.X = Math.Max(position.X, 0);
-            position.Y = Math.Max(position.Y, 0);
+            var position = new Point(10, 10);
+            position = TranslatePoint(position, parentWindow);
+            position = parentWindow.PointToScreen(position);
+            position = AccountForWindowDpiScaling(position);
+            return position;
+        }
+
+        Point AccountForWindowDpiScaling(Point position)
+        {
+            var dpiScale = VisualTreeHelper.GetDpi(this);
+            position.X = position.X * 96.0 / dpiScale.PixelsPerInchX;
+            position.Y = position.Y * 96.0 / dpiScale.PixelsPerInchY;
             return position;
         }
     }
