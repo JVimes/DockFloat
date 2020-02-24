@@ -27,7 +27,7 @@
                         <DockPanel x:Name="innerRoot" Background="{TemplateBinding Background}">
                             <DockPanel x:Name="titleBar" Background="white" DockPanel.Dock="Top"
                                        Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).CaptionHeight, Mode=OneWay}">
-                                <Button x:Name="PART_DockButton" ToolTip="Dock this pop-up back into the main window"
+                                <Button x:Name="PART_DockButton" ToolTip="Dock back into parent window"
                                         HorizontalAlignment="Right" VerticalAlignment="Top"
                                         DockPanel.Dock="Right" Margin="1" Padding="0" Width="16" Height="16"
                                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
