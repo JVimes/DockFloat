@@ -7,67 +7,64 @@
         xmlns:df="clr-namespace:DockFloat;assembly=DockFloat"
         mc:Ignorable="d"
         Title="Demo"
-        Width="640"
-        Height="480">
+        Width="525"
+        Height="350">
     <Window.Resources>
-        <SolidColorBrush x:Key="annotationBrush" Color="#C00"/>
+        <SolidColorBrush x:Key="annotationBrush" Color="DarkGreen"/>
         <Style x:Key="annotation" TargetType="Border">
             <Style.Resources>
                 <Style TargetType="TextBlock">
                     <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="Foreground" Value="{StaticResource annotationBrush}"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
                 </Style>
             </Style.Resources>
             <Setter Property="BorderBrush" Value="{StaticResource annotationBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="10"/>
-            <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="TextElement.Foreground" Value="{StaticResource annotationBrush}" />
-            <Setter Property="TextElement.FontSize" Value="10" />
+            <Setter Property="CornerRadius" Value="5"/>
         </Style>
     </Window.Resources>
+    
     <DockPanel>
-        <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel classes. -->
+        <!-- Note, df:Dock is unrelated to WPF's Dock or DockPanel classes. -->
         <df:Dock DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
             <Border Style="{StaticResource annotation}" Width="140">
                 <StackPanel>
-                    <TextBlock Margin="0,0,0,5" FontWeight="DemiBold">Default</TextBlock>
-                    <TextBlock Margin="0,0,0,5" Text="Dock background applies to floating window."/>
-                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
-                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}" Margin="0,0,0,10"/>
-                    <TextBlock TextElement.Foreground="Black" TextElement.FontSize="12"
-                               Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
+                    <TextBlock Text="Dock background applies to floating window."/>
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
+                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                    <TextBlock Style="{x:Null}" Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
                 </StackPanel>
             </Border>
         </df:Dock>
         <df:Dock DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
             <Border Style="{StaticResource annotation}">
                 <StackPanel>
-                    <TextBlock Text="ButtonOverlapsContent is False" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
-                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}" Margin="0,0,0,10"/>
-                    <CheckBox x:Name="bindingTest2" TextElement.FontSize="12"
-                              Content="BindingTest2" IsChecked="True"/>
+                    <TextBlock Text="ButtonOverlapsContent is False"/>
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
+                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
+                    <CheckBox x:Name="bindingTest2" TextElement.FontSize="12" Content="BindingTest2" IsChecked="True"/>
                 </StackPanel>
             </Border>
         </df:Dock>
         <df:Dock DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <Border Style="{StaticResource annotation}" Height="100">
+            <Border Style="{StaticResource annotation}" Height="110">
                 <StackPanel>
                     <TextBlock Text="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
-                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}"/>
-                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
+                    <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
                 </StackPanel>
             </Border>
         </df:Dock>
-        <StackPanel Background="LightGray">
-            <TextBlock Text="Main UI" Margin="0,0,0,10"/>
-            <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,10"/>
-            <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}"
-                       Margin="0,0,0,10"/>
-            <ToggleButton x:Name="isFloatingLeft" Content="IsFloating (left panel)" HorizontalAlignment="Left" Padding="10,0"
-                          Margin="0,0,0,10"/>
-            <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick"/>
-        </StackPanel>
+        <Border Background="LightGray" Padding="10">
+            <StackPanel>
+                <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}" Margin="0,0,0,5"/>
+                <CheckBox x:Name="isFloatingLeft" Content="IsFloating (left panel)" HorizontalAlignment="Left" Padding="10,0" Margin="0,0,0,5"/>
+                <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick"/>
+            </StackPanel>
+        </Border>
     </DockPanel>
 </Window>
