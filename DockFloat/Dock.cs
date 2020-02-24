@@ -37,8 +37,15 @@ namespace DockFloat
 
             var runninginXamlDesigner = DesignerProperties.GetIsInDesignMode(new DependencyObject());
             if (runninginXamlDesigner) return;
+        }
 
-            Application.Current.MainWindow.StateChanged += MinimizeOrRestoreWithMainWindow;
+        public Dock()
+        {
+            Initialized += (s, e) =>
+            {
+                var parentWindow = Window.GetWindow(this);
+                LinkWindowStates(parentWindow);
+            };
         }
 
 
@@ -82,16 +89,14 @@ namespace DockFloat
         }
 
 
-        static void MinimizeOrRestoreWithMainWindow(object? sender, EventArgs e)
+        void LinkWindowStates(Window parentWindow)
         {
-            if (!(sender is Window mainWindow)) return;
-
-            var floatWindows = GetAllFloatWindows(mainWindow);
-            foreach (var floatWindow in floatWindows)
-                floatWindow.Visibility =
-                    mainWindow.WindowState == WindowState.Minimized ?
-                    Visibility.Collapsed :
-                    Visibility.Visible;
+            parentWindow.StateChanged += (s, e) =>
+            {
+                var floatWindows = GetAllFloatWindows(parentWindow);
+                foreach (var floatWindow in floatWindows)
+                    floatWindow.WindowState = parentWindow.WindowState;
+            };
         }
 
         void OnIsFloatingChanged()
@@ -100,8 +105,8 @@ namespace DockFloat
             else DockIn();
         }
 
-        static IEnumerable<Window> GetAllFloatWindows(Window mainWindow)
-            => from dock in mainWindow.GetDocks()
+        static IEnumerable<Window> GetAllFloatWindows(Window parentWindow)
+            => from dock in parentWindow.GetDocks()
                where dock.floatWindow != null
                select dock.floatWindow;
 
