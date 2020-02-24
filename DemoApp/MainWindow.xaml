@@ -28,7 +28,7 @@
     </Window.Resources>
     <DockPanel>
         <!-- Note, df:Dock has nothing to do with WPF's Dock or DockPanel classes. -->
-        <df:Dock DockPanel.Dock="Left" Background="SkyBlue">
+        <df:Dock DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
             <Border Style="{StaticResource annotation}" Width="140">
                 <StackPanel>
                     <TextBlock Margin="0,0,0,5" FontWeight="DemiBold">Default</TextBlock>
@@ -63,7 +63,11 @@
         <StackPanel Background="LightGray">
             <TextBlock Text="Main UI" Margin="0,0,0,10"/>
             <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,10"/>
-            <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}"/>
+            <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}"
+                       Margin="0,0,0,10"/>
+            <ToggleButton x:Name="isFloatingLeft" Content="IsFloating (left panel)" HorizontalAlignment="Left" Padding="10,0"
+                          Margin="0,0,0,10"/>
+            <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick"/>
         </StackPanel>
     </DockPanel>
 </Window>

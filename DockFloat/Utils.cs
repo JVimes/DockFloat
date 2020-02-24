@@ -8,9 +8,12 @@ using System.Windows.Controls;
 
 namespace DockFloat
 {
-    static class Extensions
+    public static class Utils
     {
-        public static IEnumerable<T> FindLogicalChildren<T>(
+        public static IEnumerable<Dock> GetDocks(this Window window)
+            => window.FindLogicalChildren<Dock>();
+
+        static IEnumerable<T> FindLogicalChildren<T>(
             this DependencyObject parent) where T : DependencyObject
         {
             if (parent == null) yield return null;

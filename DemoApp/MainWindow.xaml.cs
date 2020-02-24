@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DockFloat;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace DemoApp
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        void OnFloatAllClick(object sender, RoutedEventArgs e)
+        {
+            var docks = this.GetDocks();
+            foreach (var dock in docks) dock.IsFloating = true;
         }
     }
 }

@@ -60,12 +60,24 @@ namespace DockFloat
             DependencyProperty.Register("ButtonOverlapsContent", typeof(bool), typeof(Dock),
                 new PropertyMetadata(true));
 
+        public bool IsFloating
+        {
+            get => (bool)GetValue(IsFloatingProperty);
+            set => SetValue(IsFloatingProperty, value);
+        }
+        public static readonly DependencyProperty IsFloatingProperty =
+            DependencyProperty.Register("IsFloating", typeof(bool), typeof(Dock),
+                new FrameworkPropertyMetadata(
+                    false,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    (d, e) => (d as Dock).OnIsFloatingChanged()));
+
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var popOutButton = GetTemplateChild("PART_PopOutButton") as Button;
-            popOutButton.Click += (s, e) => PopOut();
+            popOutButton.Click += (s, e) => IsFloating = true;
         }
 
 
@@ -80,23 +92,32 @@ namespace DockFloat
                     Visibility.Visible;
         }
 
-        static IEnumerable<Window> GetAllFloatWindows(Window mainWindow) =>
-            from dock in mainWindow.FindLogicalChildren<Dock>()
-            where dock.floatWindow != null
-            select dock.floatWindow;
+        void OnIsFloatingChanged()
+        {
+            if (IsFloating) PopOut();
+            else DockIn();
+        }
+
+        static IEnumerable<Window> GetAllFloatWindows(Window mainWindow)
+            => from dock in mainWindow.GetDocks()
+               where dock.floatWindow != null
+               select dock.floatWindow;
 
         void PopOut()
         {
             SaveContentFromDock();
             AddContentToNewFloatingWindow();
             HideTheDock();
+            IsFloating = true;
         }
 
         void DockIn()
         {
+            floatWindow.Close();
             floatWindow = null;
             RestoreContentToDock();
             ShowTheDock();
+            IsFloating = false;
         }
 
         void SaveContentFromDock()
@@ -125,7 +146,7 @@ namespace DockFloat
                 Owner = parentWindow,
             };
 
-            floatWindow.Closed += (s, e) => DockIn();
+            floatWindow.Closed += (s, e) => IsFloating = false;
             floatWindow.Show();
         }
 
