@@ -30,8 +30,8 @@ namespace DockFloat
         internal double ActualWidth { get; }
         internal double ActualHeight { get; }
 
-        internal static ContentState Save(FrameworkElement content) =>
-            new ContentState(content);
+        internal static ContentState Save(FrameworkElement content)
+            => new ContentState(content);
 
         internal FrameworkElement Restore()
         {

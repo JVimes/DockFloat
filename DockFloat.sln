@@ -9,6 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockFloat", "DockFloat\Dock
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F7E0F7E-CD4E-4AF7-9BFA-2806C5C63859}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		logo.design = logo.design
 		ReadMe.md = ReadMe.md
 	EndProjectSection

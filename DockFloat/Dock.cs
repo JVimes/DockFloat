@@ -19,32 +19,32 @@ using System.Windows.Shapes;
 namespace DockFloat
 {
     /// <summary>
-    ///   Use this as a container for the UI elements that will be docked.
-    ///   Note, this class has nothing to do with <see
+    ///   Use this as a container for a UI element that will be docked/floated.
+    ///   <br/> This class is unrelated to <see
     ///   cref="System.Windows.Controls.Dock"/> or <see cref="DockPanel"/>.
     /// </summary>
     [ContentProperty("Content")]
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control
     {
-        Window floatWindow;
-        ContentState savedContentState;
+        Window? floatWindow;
+        ContentState? savedContentState;
 
 
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
 
-            var RunninginXamlDesigner = DesignerProperties.GetIsInDesignMode(new DependencyObject());
-            if (RunninginXamlDesigner) return;
+            var runninginXamlDesigner = DesignerProperties.GetIsInDesignMode(new DependencyObject());
+            if (runninginXamlDesigner) return;
 
             Application.Current.MainWindow.StateChanged += MinimizeOrRestoreWithMainWindow;
         }
 
 
-        public FrameworkElement Content
+        public FrameworkElement? Content
         {
-            get => (FrameworkElement)GetValue(ContentProperty);
+            get => (FrameworkElement?)GetValue(ContentProperty);
             set => SetValue(ContentProperty, value);
         }
         public static readonly DependencyProperty ContentProperty =
@@ -70,20 +70,22 @@ namespace DockFloat
                 new FrameworkPropertyMetadata(
                     false,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    (d, e) => (d as Dock).OnIsFloatingChanged()));
+                    (d, e) => (d as Dock)?.OnIsFloatingChanged()));
 
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var popOutButton = GetTemplateChild("PART_PopOutButton") as Button;
-            popOutButton.Click += (s, e) => IsFloating = true;
+            if (popOutButton != null)
+                popOutButton.Click += (s, e) => IsFloating = true;
         }
 
 
-        static void MinimizeOrRestoreWithMainWindow(object sender, EventArgs e)
+        static void MinimizeOrRestoreWithMainWindow(object? sender, EventArgs e)
         {
-            var mainWindow = sender as Window;
+            if (!(sender is Window mainWindow)) return;
+
             var floatWindows = GetAllFloatWindows(mainWindow);
             foreach (var floatWindow in floatWindows)
                 floatWindow.Visibility =
@@ -113,8 +115,12 @@ namespace DockFloat
 
         void DockIn()
         {
-            floatWindow.Close();
-            floatWindow = null;
+            if (floatWindow != null)
+            {
+                floatWindow.Close();
+                floatWindow = null;
+            }
+
             RestoreContentToDock();
             ShowTheDock();
             IsFloating = false;
@@ -122,18 +128,22 @@ namespace DockFloat
 
         void SaveContentFromDock()
         {
+            if (Content == null) return;
+
             savedContentState = ContentState.Save(Content);
             Content = null;
         }
 
         void RestoreContentToDock()
         {
-            Content = savedContentState.Restore();
+            Content = savedContentState?.Restore();
             savedContentState = null;
         }
 
         void AddContentToNewFloatingWindow()
         {
+            if (savedContentState == null) return;
+
             var parentWindow = Window.GetWindow(this);
             var position = GetFloatWindowPosition(parentWindow);
 

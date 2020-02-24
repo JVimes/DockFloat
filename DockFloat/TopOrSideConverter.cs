@@ -30,7 +30,7 @@ namespace DockFloat
                 Wpf.Dock.Top;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object[]? ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
             => default;
     }
 }

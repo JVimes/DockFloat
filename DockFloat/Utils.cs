@@ -16,8 +16,6 @@ namespace DockFloat
         static IEnumerable<T> FindLogicalChildren<T>(
             this DependencyObject parent) where T : DependencyObject
         {
-            if (parent == null) yield return null;
-
             var dependencyChildren =
                 LogicalTreeHelper.GetChildren(parent)
                                  .OfType<DependencyObject>();

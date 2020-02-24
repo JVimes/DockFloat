@@ -40,7 +40,8 @@ namespace DockFloat
         {
             base.OnApplyTemplate();
             var dockInButton = GetTemplateChild("PART_DockButton") as Button;
-            dockInButton.Click += (s, e) => Close();
+            if (dockInButton != null)
+                dockInButton.Click += (s, e) => Close();
         }
 
 
