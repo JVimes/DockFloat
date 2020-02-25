@@ -1,5 +1,12 @@
 name: .NET Build
-on: [push]
+on:
+  push:
+    tags-ignore: '**'
+    paths-ignore:
+      - '*'
+      - '!*.sln'
+      - '!.editorconfig'
+      - '!logo.png'
 jobs:
   build:
     runs-on: windows-latest
