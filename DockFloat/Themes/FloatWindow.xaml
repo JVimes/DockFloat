@@ -13,7 +13,7 @@
            xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
-                <shell:WindowChrome CaptionHeight="18" GlassFrameThickness="2"/>
+                <shell:WindowChrome CaptionHeight="18" UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="ShowInTaskbar" Value="False"/>
@@ -26,13 +26,13 @@
                     <Border x:Name="root" Padding="1" UseLayoutRounding="True">
                         <DockPanel x:Name="innerRoot" Background="{TemplateBinding Background}">
                             <DockPanel x:Name="titleBar" Background="white" DockPanel.Dock="Top"
-                                       Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).CaptionHeight, Mode=OneWay}">
+                                       Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).CaptionHeight}">
                                 <Button x:Name="PART_DockButton" ToolTip="Dock back into parent window"
                                         HorizontalAlignment="Right" VerticalAlignment="Top"
                                         DockPanel.Dock="Right" Margin="1" Padding="0" Width="16" Height="16"
                                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
                                         Style="{x:Null}" Template="{StaticResource DockInButtonTemplate}"/>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Title}"
+                                <TextBlock Text="{TemplateBinding Title}"
                                            HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             </DockPanel>
                             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}">
@@ -44,10 +44,10 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <!--Fix issue where WPF cuts off content edges when window is maximized-->
+                        <!-- Fix issue where content goes out of bounds (apparently by twice the resize border thickness) when window is maximized -->
                         <Trigger Property="WindowState" Value="Maximized">
-                            <Setter TargetName="root" Property="Padding" Value="{Binding Source={x:Static SystemParameters.WindowResizeBorderThickness}}"/>
-                            <Setter TargetName="innerRoot" Property="Margin" Value="{Binding Source={x:Static SystemParameters.WindowResizeBorderThickness}}"/>
+                            <Setter TargetName="root" Property="Padding" Value="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
+                            <Setter TargetName="innerRoot" Property="Margin" Value="{x:Static SystemParameters.WindowResizeBorderThickness}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
