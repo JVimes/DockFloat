@@ -28,8 +28,25 @@ namespace DemoApp
 
         void OnFloatAllClick(object sender, RoutedEventArgs e)
         {
-            var docks = this.GetDocks();
+            var docks = FindLogicalChildren<DockFloat.Dock>(this);
             foreach (var dock in docks) dock.IsFloating = true;
+        }
+
+        static IEnumerable<T> FindLogicalChildren<T>(
+            DependencyObject parent) where T : DependencyObject
+        {
+            var dependencyChildren =
+                LogicalTreeHelper.GetChildren(parent)
+                                 .OfType<DependencyObject>();
+
+            foreach (var child in dependencyChildren)
+            {
+                if (child is T typedChild)
+                    yield return typedChild;
+
+                foreach (T childOfChild in FindLogicalChildren<T>(child))
+                    yield return childOfChild;
+            }
         }
     }
 }

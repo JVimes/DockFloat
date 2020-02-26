@@ -27,6 +27,9 @@ namespace DockFloat
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
     public class Dock : Control
     {
+        static readonly bool runninginXamlDesigner =
+            DesignerProperties.GetIsInDesignMode(new DependencyObject());
+
         Window? floatWindow;
         ContentState? savedContentState;
 
@@ -34,18 +37,12 @@ namespace DockFloat
         static Dock()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
-
-            var runninginXamlDesigner = DesignerProperties.GetIsInDesignMode(new DependencyObject());
-            if (runninginXamlDesigner) return;
         }
 
         public Dock()
         {
-            Initialized += (s, e) =>
-            {
-                var parentWindow = Window.GetWindow(this);
-                LinkWindowStates(parentWindow);
-            };
+            if (!runninginXamlDesigner)
+                FixChildWindowRestoreToMaximize();
         }
 
 
@@ -89,14 +86,15 @@ namespace DockFloat
         }
 
 
-        void LinkWindowStates(Window parentWindow)
+        void FixChildWindowRestoreToMaximize()
         {
-            parentWindow.StateChanged += (s, e) =>
+            void OnLoaded(object sender, RoutedEventArgs e)
             {
-                var floatWindows = GetAllFloatWindows(parentWindow);
-                foreach (var floatWindow in floatWindows)
-                    floatWindow.WindowState = parentWindow.WindowState;
-            };
+                Loaded -= OnLoaded;
+                var parentWindow = Window.GetWindow(this);
+                Utils.FixChildWindowRestoreToMaximize(parentWindow);
+            }
+            Loaded += OnLoaded; // Using Loaded, parent window was null in Initialized in one case.
         }
 
         void OnIsFloatingChanged()
@@ -104,11 +102,6 @@ namespace DockFloat
             if (IsFloating) PopOut();
             else DockIn();
         }
-
-        static IEnumerable<Window> GetAllFloatWindows(Window parentWindow)
-            => from dock in parentWindow.GetDocks()
-               where dock.floatWindow != null
-               select dock.floatWindow;
 
         void PopOut()
         {

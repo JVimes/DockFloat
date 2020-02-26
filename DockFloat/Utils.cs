@@ -8,26 +8,37 @@ using System.Windows.Controls;
 
 namespace DockFloat
 {
-    public static class Utils
+    static class Utils
     {
-        public static IEnumerable<Dock> GetDocks(this Window window)
-            => window.FindLogicalChildren<Dock>();
-
-        static IEnumerable<T> FindLogicalChildren<T>(
-            this DependencyObject parent) where T : DependencyObject
+        /// <summary>
+        ///   When parent window is restored from minimized, WPF does not
+        ///   maximize previously maximized child windows. This makes that
+        ///   happen.
+        /// </summary>
+        internal static void FixChildWindowRestoreToMaximize(Window parentWindow)
         {
-            var dependencyChildren =
-                LogicalTreeHelper.GetChildren(parent)
-                                 .OfType<DependencyObject>();
-
-            foreach (var child in dependencyChildren)
+            static void OnStateChanged(object? sender, EventArgs e)
             {
-                if (child is T typedChild)
-                    yield return typedChild;
+                var parent = sender as Window;
+                var state = parent?.WindowState;
+                if (parent == null || state == WindowState.Minimized)
+                    return;
 
-                foreach (T childOfChild in FindLogicalChildren<T>(child))
-                    yield return childOfChild;
+                var maximizedChildren =
+                    from child in parent.OwnedWindows.OfType<Window>()
+                    where child.WindowState == WindowState.Maximized
+                    select child;
+
+                foreach (var child in maximizedChildren)
+                {
+                    Action maximize =
+                        () => child.WindowState = WindowState.Maximized;
+                    child.Dispatcher.BeginInvoke(maximize);
+                }
             }
+
+            parentWindow.StateChanged -= OnStateChanged; // Don't subscribe more than once
+            parentWindow.StateChanged += OnStateChanged;
         }
     }
 }
