@@ -29,7 +29,7 @@
     
     <DockPanel>
         <!-- Note, df:Dock is unrelated to WPF's Dock or DockPanel classes. -->
-        <df:Dock DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
+        <df:Dock WindowTitle="Left Panel" DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
             <Border Style="{StaticResource annotation}" Width="140">
                 <StackPanel>
                     <TextBlock Text="Dock background applies to floating window."/>
@@ -39,7 +39,7 @@
                 </StackPanel>
             </Border>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
+        <df:Dock WindowTitle="Right Panel" DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
             <Border Style="{StaticResource annotation}">
                 <StackPanel>
                     <TextBlock Text="ButtonOverlapsContent is False"/>
@@ -49,7 +49,7 @@
                 </StackPanel>
             </Border>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
+        <df:Dock WindowTitle="{Binding Text, ElementName=bottomPanelTitle}" DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
             <Border Style="{StaticResource annotation}" Height="110">
                 <StackPanel>
                     <TextBlock Text="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
@@ -63,7 +63,8 @@
                 <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,5"/>
                 <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}" Margin="0,0,0,5"/>
                 <CheckBox x:Name="isFloatingLeft" Content="IsFloating (left panel)" HorizontalAlignment="Left" Padding="10,0" Margin="0,0,0,5"/>
-                <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick"/>
+                <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick" Margin="0,0,0,5"/>
+                <TextBox x:Name="bottomPanelTitle" Text="Bottom Panel Floating Window Title"/>
             </StackPanel>
         </Border>
     </DockPanel>

@@ -76,6 +76,14 @@ namespace DockFloat
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     (d, e) => (d as Dock)?.OnIsFloatingChanged()));
 
+        public string WindowTitle
+        {
+            get => (string)GetValue(WindowTitleProperty);
+            set => SetValue(WindowTitleProperty, value);
+        }
+        public static readonly DependencyProperty WindowTitleProperty =
+            DependencyProperty.Register("WindowTitle", typeof(string), typeof(Dock),
+                new PropertyMetadata((d, e) => (d as Dock)?.OnWindowTitleChanged()));
 
         public override void OnApplyTemplate()
         {
@@ -101,6 +109,12 @@ namespace DockFloat
         {
             if (IsFloating) PopOut();
             else DockIn();
+        }
+
+        void OnWindowTitleChanged()
+        {
+            if (floatWindow != null)
+                floatWindow.Title = WindowTitle;
         }
 
         void PopOut()
@@ -147,6 +161,7 @@ namespace DockFloat
 
             floatWindow = new FloatWindow(savedContentState.FloatContent)
             {
+                Title = WindowTitle,
                 DataContext = DataContext,
                 Left = position.X,
                 Top = position.Y,
