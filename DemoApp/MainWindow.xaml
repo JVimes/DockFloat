@@ -39,7 +39,7 @@
                 </StackPanel>
             </Border>
         </df:Dock>
-        <df:Dock WindowTitle="Right Panel" DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
+        <df:Dock DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
             <Border Style="{StaticResource annotation}">
                 <StackPanel>
                     <TextBlock Text="ButtonOverlapsContent is False"/>

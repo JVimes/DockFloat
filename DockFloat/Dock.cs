@@ -161,7 +161,7 @@ namespace DockFloat
 
             floatWindow = new FloatWindow(savedContentState.FloatContent)
             {
-                Title = WindowTitle,
+                Title = WindowTitle ?? "",
                 DataContext = DataContext,
                 Left = position.X,
                 Top = position.Y,
