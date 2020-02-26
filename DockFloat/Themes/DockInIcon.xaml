@@ -5,24 +5,9 @@
 			<DrawingGroup>
 				<DrawingGroup.Children>
 					<GeometryDrawing Brush="#00FFFFFF" Geometry="M 0,0L 16,0L 16,16L 0,16L 0,0 Z "/>
-					<GeometryDrawing Geometry="M 3.5,5.5L 1.5,5.5L 1.5,14.5L 10.5,14.5L 10.5,12.5">
-						<GeometryDrawing.Pen>
-							<Pen Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#FFFFFFFF"/>
-						</GeometryDrawing.Pen>
-					</GeometryDrawing>
 					<GeometryDrawing Geometry="M 4,5.5L 1.5,5.5L 1.5,14.5L 10.5,14.5L 10.5,12">
 						<GeometryDrawing.Pen>
 							<Pen MiterLimit="2.75" Brush="#FF000000"/>
-						</GeometryDrawing.Pen>
-					</GeometryDrawing>
-					<GeometryDrawing Geometry="M 13.5,2.5L 7,9">
-						<GeometryDrawing.Pen>
-							<Pen Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#FFFFFFFF"/>
-						</GeometryDrawing.Pen>
-					</GeometryDrawing>
-					<GeometryDrawing Geometry="M 12.5,9.5L 6.49999,9.50001L 6.5,3.5">
-						<GeometryDrawing.Pen>
-							<Pen Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#FFFFFFFF"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
 					<GeometryDrawing Geometry="M 14,2L 7,9">

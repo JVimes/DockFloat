@@ -5,15 +5,17 @@
         <ResourceDictionary Source="DockInIcon.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="DockInButtonTemplate">
-        <Rectangle Fill="{StaticResource DockInIconBrush}" Height="16" Width="16"/>
+    <ControlTemplate x:Key="DockInButtonTemplate" TargetType="Button">
+        <Border Background="{TemplateBinding Background}">
+            <ContentPresenter/>
+        </Border>
     </ControlTemplate>
 
     <Style TargetType="local:FloatWindow"
            xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework">
         <Setter Property="shell:WindowChrome.WindowChrome">
             <Setter.Value>
-                <shell:WindowChrome CaptionHeight="18" UseAeroCaptionButtons="False"/>
+                <shell:WindowChrome CaptionHeight="24" ResizeBorderThickness="6" UseAeroCaptionButtons="False"/>
             </Setter.Value>
         </Setter>
         <Setter Property="ShowInTaskbar" Value="False"/>
@@ -22,19 +24,37 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:FloatWindow">
-                    <!-- This border lets the active-window highlighting (colored border around window) show through from the OS WindowChrome -->
+                    
+                    <!-- This border lets the active-window highlighting show through from the OS window -->
                     <Border x:Name="root" Padding="1" UseLayoutRounding="True">
                         <DockPanel x:Name="innerRoot" Background="{TemplateBinding Background}">
-                            <DockPanel x:Name="titleBar" Background="white" DockPanel.Dock="Top"
-                                       Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).CaptionHeight}">
-                                <Button x:Name="PART_DockButton" ToolTip="Dock back into parent window"
-                                        HorizontalAlignment="Right" VerticalAlignment="Top"
-                                        DockPanel.Dock="Right" Margin="1" Padding="0" Width="16" Height="16"
+                            
+                            <!-- Title bar -->
+                            <DockPanel Background="{x:Static SystemColors.WindowBrush}" DockPanel.Dock="Top">
+                                <!--Spacer. Its margin accounts for WindowChrome.ResizeBorderThickness and active-window highlighting border above -->
+                                <Border Height="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(shell:WindowChrome.WindowChrome).CaptionHeight}"
+                                        Margin="0,0,0,4"/>
+                                <Button x:Name="PART_DockButton" ToolTip="Dock back into parent window" DockPanel.Dock="Right"
+                                        VerticalAlignment="Top"
                                         shell:WindowChrome.IsHitTestVisibleInChrome="True"
-                                        Style="{x:Null}" Template="{StaticResource DockInButtonTemplate}"/>
-                                <TextBlock Text="{TemplateBinding Title}"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                        Template="{StaticResource DockInButtonTemplate}"
+                                        Width="45" Height="29">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#E5E5E5" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Rectangle Fill="{StaticResource DockInIconBrush}" Height="16" Width="16"/>
+                                </Button>
+                                <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             </DockPanel>
+
                             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}">
                                 <AdornerDecorator>
                                     <ContentPresenter/>

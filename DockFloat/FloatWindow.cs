@@ -48,13 +48,14 @@ namespace DockFloat
         void SetSize(FrameworkElement content)
         {
             var activeWindowBorder = 2; // Accounts for active-window highlighting border from FloatWindow.xaml
-            var fudge = 4; // Wish I knew where this was coming from
             var windowChrome = WindowChrome.GetWindowChrome(this);
+            var verticalFudge = -1; // Wish I knew where this was coming from
 
-            var horizontalChrome = activeWindowBorder + fudge;
+            var horizontalChrome = activeWindowBorder;
             var verticalChrome = windowChrome.CaptionHeight
+                                 + windowChrome.ResizeBorderThickness.Top
                                  + activeWindowBorder
-                                 + fudge;
+                                 + verticalFudge;
 
             Width = content.ActualWidth + horizontalChrome;
             Height = content.ActualHeight + verticalChrome;

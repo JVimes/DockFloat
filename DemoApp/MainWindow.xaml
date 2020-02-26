@@ -22,7 +22,6 @@
             </Style.Resources>
             <Setter Property="BorderBrush" Value="{StaticResource annotationBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="10"/>
             <Setter Property="CornerRadius" Value="5"/>
         </Style>
