@@ -18,3 +18,8 @@ jobs:
         dotnet-version: 3.1.100
     - name: Build with dotnet
       run: dotnet build --configuration Release
+    - name: Save build output
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: BuildOutput
+        path: DockFloat\bin\Release
