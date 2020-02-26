@@ -1,6 +1,7 @@
 name: .NET Build
 on:
   push:
+    branches: '**'
     tags-ignore: '**'
     paths-ignore:
       - '*'
