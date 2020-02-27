@@ -48,9 +48,6 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="Content" Value="{x:Null}">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                        </Trigger>
                         <Trigger Property="ButtonOverlapsContent" Value="True">
                             <Setter TargetName="spacer" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
