@@ -51,11 +51,15 @@ namespace DockFloat
             var windowChrome = WindowChrome.GetWindowChrome(this);
             var verticalFudge = -1; // Wish I knew where this was coming from
 
-            var horizontalChrome = activeWindowBorder;
+            var horizontalChrome = activeWindowBorder
+                                   + Padding.Left
+                                   + Padding.Right;
             var verticalChrome = windowChrome.CaptionHeight
                                  + windowChrome.ResizeBorderThickness.Top
                                  + activeWindowBorder
-                                 + verticalFudge;
+                                 + verticalFudge
+                                 + Padding.Top
+                                 + Padding.Bottom;
 
             Width = content.ActualWidth + horizontalChrome;
             Height = content.ActualHeight + verticalChrome;

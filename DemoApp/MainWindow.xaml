@@ -11,6 +11,9 @@
         Width="525"
         Height="350">
     <Window.Resources>
+        <Style TargetType="df:Dock">
+            <Setter Property="Padding" Value="1"/>
+        </Style>
         <SolidColorBrush x:Key="annotationBrush" Color="DarkGreen"/>
         <Style x:Key="annotation" TargetType="Border">
             <Style.Resources>

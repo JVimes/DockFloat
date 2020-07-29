@@ -57,7 +57,7 @@
 
                             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}">
                                 <AdornerDecorator>
-                                    <ContentPresenter/>
+                                    <ContentPresenter Margin="{TemplateBinding Padding}"/>
                                 </AdornerDecorator>
                             </Border>
                         </DockPanel>

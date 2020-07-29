@@ -166,6 +166,7 @@ namespace DockFloat
                 Left = position.X,
                 Top = position.Y,
                 Background = Background,
+                Padding = Padding,
                 Owner = parentWindow,
             };
 

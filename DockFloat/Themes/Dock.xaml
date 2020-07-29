@@ -36,7 +36,7 @@
                                         </Style>
                                     </Border.Style>
                                 </Border>
-                                <ContentPresenter x:Name="presenter"/>
+                                <ContentPresenter x:Name="presenter" Margin="{TemplateBinding Padding}"/>
                             </DockPanel>
                             <Button x:Name="PART_PopOutButton" ToolTip="Pop out to floating window"
                                     HorizontalAlignment="Right" VerticalAlignment="Top"
