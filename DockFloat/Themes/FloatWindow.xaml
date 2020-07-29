@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DockFloat">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="DockInIcon.xaml"/>
+        <ResourceDictionary Source="../Icons/DockInIcon.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="DockInButtonTemplate" TargetType="Button">

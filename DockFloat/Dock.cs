@@ -46,6 +46,15 @@ namespace DockFloat
         }
 
 
+        public object Icon
+        {
+            get => (object)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(object), typeof(Dock),
+                new PropertyMetadata());
+
         public FrameworkElement? Content
         {
             get => (FrameworkElement?)GetValue(ContentProperty);
@@ -166,6 +175,7 @@ namespace DockFloat
                 Left = position.X,
                 Top = position.Y,
                 Background = Background,
+                Foreground = Foreground,
                 Padding = Padding,
                 Owner = parentWindow,
             };

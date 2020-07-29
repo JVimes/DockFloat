@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:DockFloat">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="PopOutIconDark.xaml"/>
+        <ResourceDictionary Source="PopOutIconLight.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Rectangle x:Key="PopOutIconDark" Fill="{StaticResource PopOutIconDarkBrush}" Height="16" Width="16" x:Shared="False"/>
+    <Rectangle x:Key="PopOutIconLight" Fill="{StaticResource PopOutIconLightBrush}" Height="16" Width="16" x:Shared="False"/>
+
+</ResourceDictionary>

@@ -11,64 +11,90 @@
         Width="525"
         Height="350">
     <Window.Resources>
+        <!-- Note, df:Dock is unrelated to WPF's Dock or DockPanel classes. -->
         <Style TargetType="df:Dock">
             <Setter Property="Padding" Value="1"/>
         </Style>
-        <SolidColorBrush x:Key="annotationBrush" Color="DarkGreen"/>
-        <Style x:Key="annotation" TargetType="Border">
+
+        <Style x:Key="Annotation" TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Setter Property="Foreground" Value="Green"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+
+        <!-- Have to use x:key because implicit styles outside of df:Dock don't apply inside its floating window. -->
+        <Style x:Key="ContentStyle" TargetType="Border">
             <Style.Resources>
+                <!-- Implicit style here works because it's nested in a style with x:key. -->
                 <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,0,10"/>
                     <Setter Property="TextWrapping" Value="Wrap"/>
-                    <Setter Property="Foreground" Value="{StaticResource annotationBrush}"/>
-                    <Setter Property="Margin" Value="0,0,0,5"/>
                 </Style>
             </Style.Resources>
-            <Setter Property="BorderBrush" Value="{StaticResource annotationBrush}"/>
+            
+            <Setter Property="BorderBrush" Value="Green"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10"/>
             <Setter Property="CornerRadius" Value="5"/>
         </Style>
     </Window.Resources>
-    
+
     <DockPanel>
-        <!-- Note, df:Dock is unrelated to WPF's Dock or DockPanel classes. -->
+
         <df:Dock WindowTitle="Left Panel" DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
-            <Border Style="{StaticResource annotation}" Width="140">
+            <Border Style="{StaticResource ContentStyle}" Width="140">
                 <StackPanel>
-                    <TextBlock Text="Dock background applies to floating window."/>
+                    <TextBlock Style="{StaticResource Annotation}" Text="Dock background applies to floating window."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
                     <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
-                    <TextBlock Style="{x:Null}" Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
+                    <TextBlock Text="{Binding ElementName=bindingTest1, Path=IsChecked, StringFormat=BindingTest1: {0}}"/>
                 </StackPanel>
             </Border>
         </df:Dock>
-        <df:Dock DockPanel.Dock="Right" Width="140.5" ButtonOverlapsContent="False" Background="LightGreen">
-            <Border Style="{StaticResource annotation}">
+
+        <df:Dock DockPanel.Dock="Right" Width="150.5" ButtonOverlapsContent="False" Background="#333" Foreground="White">
+
+            <!-- Example of custom pop-out icon. In this case, it's "PopOutIconLight" from DockFloat library but you can use something else. -->
+            <df:Dock.Resources>
+                <ResourceDictionary Source="/DockFloat;component/Icons/Icons.xaml"/>
+            </df:Dock.Resources>
+            <df:Dock.Icon>
+                <StaticResource ResourceKey="PopOutIconLight"/>
+            </df:Dock.Icon>
+
+            <Border Style="{StaticResource ContentStyle}">
                 <StackPanel>
-                    <TextBlock Text="ButtonOverlapsContent is False"/>
+                    <TextBlock Style="{StaticResource Annotation}" Text="ButtonOverlapsContent is False, extra space above."/>
+                    <TextBlock Style="{StaticResource Annotation}" Text="Custom pop-out icon (light color)."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
                     <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
-                    <CheckBox x:Name="bindingTest2" TextElement.FontSize="12" Content="BindingTest2" IsChecked="True"/>
+                    <CheckBox x:Name="bindingTest2" TextElement.FontSize="12" Content="BindingTest2" IsChecked="True" Foreground="White"/>
                 </StackPanel>
             </Border>
         </df:Dock>
+
         <df:Dock WindowTitle="{Binding Text, ElementName=bottomPanelTitle}" DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <Border Style="{StaticResource annotation}" Height="110">
+            <Border Style="{StaticResource ContentStyle}" Height="115">
                 <StackPanel>
-                    <TextBlock Text="When ButtonOverlapsContent is False and panel is wide, the extra space is on the right."/>
+                    <TextBlock Style="{StaticResource Annotation}" Text="ButtonOverlapsContent is False, extra space on right when panel is wide."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
                     <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
                 </StackPanel>
             </Border>
         </df:Dock>
+
         <Border Background="LightGray" Padding="10">
             <StackPanel>
                 <CheckBox x:Name="bindingTest1" Content="BindingTest1" IsChecked="True" Margin="0,0,0,5"/>
                 <TextBlock Text="{Binding ElementName=bindingTest2, Path=IsChecked, StringFormat=BindingTest2: {0}}" Margin="0,0,0,5"/>
                 <CheckBox x:Name="isFloatingLeft" Content="IsFloating (left panel)" HorizontalAlignment="Left" Padding="10,0" Margin="0,0,0,5"/>
                 <Button Content="Float all" HorizontalAlignment="Left" Padding="10,0" Click="OnFloatAllClick" Margin="0,0,0,5"/>
-                <TextBox x:Name="bottomPanelTitle" Text="Bottom Panel Floating Window Title"/>
+                <StackPanel>
+                    <TextBlock Text="Edit: "/>
+                    <TextBox x:Name="bottomPanelTitle" Text="Bottom Dock Floating Window Title"/>
+                </StackPanel>
             </StackPanel>
         </Border>
+
     </DockPanel>
 </Window>
