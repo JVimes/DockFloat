@@ -59,13 +59,13 @@
                 <ResourceDictionary Source="/DockFloat;component/Icons/Icons.xaml"/>
             </df:Dock.Resources>
             <df:Dock.Icon>
-                <StaticResource ResourceKey="PopOutIconLight"/>
+                <Viewbox Child="{StaticResource PopOutIconLight}" Height="32" Width="32" Margin="1"/>
             </df:Dock.Icon>
 
             <Border Style="{StaticResource ContentStyle}">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Annotation}" Text="ButtonOverlapsContent is False, extra space above."/>
-                    <TextBlock Style="{StaticResource Annotation}" Text="Custom pop-out icon (light color)."/>
+                    <TextBlock Style="{StaticResource Annotation}" Text="Custom pop-out icon (big, light color)."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
                     <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>
                     <CheckBox x:Name="bindingTest2" TextElement.FontSize="12" Content="BindingTest2" IsChecked="True" Foreground="White"/>

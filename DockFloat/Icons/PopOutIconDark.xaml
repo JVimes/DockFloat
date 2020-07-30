@@ -5,12 +5,12 @@
 			<DrawingGroup>
 				<DrawingGroup.Children>
 					<GeometryDrawing Brush="#00FFFFFF" Geometry="M 0,0L 16,0L 16,16L 0,16L 0,0 Z "/>
-					<GeometryDrawing Geometry="M 6.5,4.5L 2.5,4.5L 2.5,13.5L 11.5,13.5L 11.5,9.5">
+					<GeometryDrawing Geometry="M 5.5,5.5L 1.5,5.5L 1.5,14.5L 10.5,14.5L 10.5,10.5">
 						<GeometryDrawing.Pen>
 							<Pen Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" Brush="#27FFFFFF"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Geometry="M 7,4.5L 2.5,4.5L 2.5,13.5L 11.5,13.5L 11.5,9">
+					<GeometryDrawing Geometry="M 6,5.5L 1.5,5.5L 1.5,14.5L 10.5,14.5L 10.5,10">
 						<GeometryDrawing.Pen>
 							<Pen MiterLimit="2.75" Brush="#FF000000"/>
 						</GeometryDrawing.Pen>

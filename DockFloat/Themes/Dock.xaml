@@ -38,7 +38,6 @@
                             </DockPanel>
                             <Button x:Name="PART_PopOutButton" ToolTip="Pop out to floating window"
                                     HorizontalAlignment="Right" VerticalAlignment="Top"
-                                    Width="18" Height="18"
                                     Style="{StaticResource ButtonStyle}">
                                 <ContentPresenter Content="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </Button>

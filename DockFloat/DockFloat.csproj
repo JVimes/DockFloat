@@ -18,11 +18,7 @@
     <Copyright>Copyright © 2017 John Burak</Copyright>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>- Support .NET 4.8
-- Trim text (ellipsis) in FloatWindow title
-- Improve button styles
-- Support custom pop-out icon.
-- Support Dock padding.</PackageReleaseNotes>
+    <PackageReleaseNotes>Support various sizes of pop-out icon</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

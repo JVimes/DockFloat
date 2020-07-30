@@ -6,7 +6,7 @@
         <ResourceDictionary Source="PopOutIconLight.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Rectangle x:Key="PopOutIconDark" Fill="{StaticResource PopOutIconDarkBrush}" Height="16" Width="16" x:Shared="False"/>
-    <Rectangle x:Key="PopOutIconLight" Fill="{StaticResource PopOutIconLightBrush}" Height="16" Width="16" x:Shared="False"/>
+    <Rectangle x:Key="PopOutIconDark" Fill="{StaticResource PopOutIconDarkBrush}" Height="16" Width="16" Margin="1" x:Shared="False"/>
+    <Rectangle x:Key="PopOutIconLight" Fill="{StaticResource PopOutIconLightBrush}" Height="16" Width="16" Margin="1" x:Shared="False"/>
 
 </ResourceDictionary>

@@ -10,7 +10,7 @@
 							<Pen MiterLimit="2.75" Brush="#FF000000"/>
 						</GeometryDrawing.Pen>
 					</GeometryDrawing>
-					<GeometryDrawing Geometry="M 14,2L 7,9">
+					<GeometryDrawing Geometry="M 15,1.00001L 7,9">
 						<GeometryDrawing.Pen>
 							<Pen LineJoin="Round" Brush="#FF000000"/>
 						</GeometryDrawing.Pen>
