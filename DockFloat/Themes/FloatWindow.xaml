@@ -37,7 +37,8 @@
                                     <Rectangle Fill="{StaticResource DockInIconBrush}" Height="16" Width="16"/>
                                 </Button>
                                 <TextBlock Text="{TemplateBinding Title}" Margin="10,0,0,0"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
                             </DockPanel>
 
                             <Border BorderThickness="{TemplateBinding Border.BorderThickness}" BorderBrush="{TemplateBinding Border.BorderBrush}">
