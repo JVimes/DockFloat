@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Description>A simple library for floatable, dockable UI elements in WPF.</Description>
     <Authors>John Burak</Authors>
     <PackageLicenseExpression>MIT-0</PackageLicenseExpression>
