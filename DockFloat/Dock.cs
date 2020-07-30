@@ -48,7 +48,7 @@ namespace DockFloat
 
         public object Icon
         {
-            get => (object)GetValue(IconProperty);
+            get => GetValue(IconProperty);
             set => SetValue(IconProperty, value);
         }
         public static readonly DependencyProperty IconProperty =
@@ -111,7 +111,7 @@ namespace DockFloat
                 var parentWindow = Window.GetWindow(this);
                 Utils.FixChildWindowRestoreToMaximize(parentWindow);
             }
-            Loaded += OnLoaded; // Using Loaded, parent window was null in Initialized in one case.
+            Loaded += OnLoaded; // Using Loaded. Can't use Initialized because parent window was null in one case.
         }
 
         void OnIsFloatingChanged()
@@ -192,11 +192,11 @@ namespace DockFloat
             var position = new Point(10, 10);
             position = TranslatePoint(position, parentWindow);
             position = parentWindow.PointToScreen(position);
-            position = AccountForWindowDpiScaling(position);
+            position = AccountForOSDpiScaling(position);
             return position;
         }
 
-        Point AccountForWindowDpiScaling(Point position)
+        Point AccountForOSDpiScaling(Point position)
         {
             var dpiScale = VisualTreeHelper.GetDpi(this);
             position.X = position.X * 96.0 / dpiScale.PixelsPerInchX;

@@ -3,11 +3,8 @@
                     xmlns:local="clr-namespace:DockFloat">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Icons/Icons.xaml"/>
+        <ResourceDictionary Source="Button.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
-    <ControlTemplate x:Key="PopOutButtonTemplate" TargetType="Button">
-        <ContentPresenter/>
-    </ControlTemplate>
 
     <Style TargetType="{x:Type local:Dock}">
         <Setter Property="UseLayoutRounding" Value="True"/>
@@ -42,7 +39,7 @@
                             <Button x:Name="PART_PopOutButton" ToolTip="Pop out to floating window"
                                     HorizontalAlignment="Right" VerticalAlignment="Top"
                                     Width="18" Height="18"
-                                    Style="{x:Null}" Template="{StaticResource PopOutButtonTemplate}">
+                                    Style="{StaticResource ButtonStyle}">
                                 <ContentPresenter Content="{Binding Icon, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                             </Button>
                         </Grid>
