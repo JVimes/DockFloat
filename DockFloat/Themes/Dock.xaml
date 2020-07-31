@@ -48,6 +48,10 @@
                         <Trigger Property="ButtonOverlapsContent" Value="True">
                             <Setter TargetName="spacer" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
+                        <Trigger Property="IsButtonVisible" Value="False">
+                            <Setter TargetName="spacer" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PART_PopOutButton" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

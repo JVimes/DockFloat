@@ -41,9 +41,11 @@
 
     <DockPanel>
 
-        <df:Dock WindowTitle="Left Panel" DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
+        <df:Dock WindowTitle="Left Panel" DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}"
+                 IsButtonVisible="False">
             <Border Style="{StaticResource ContentStyle}" Width="140">
                 <StackPanel>
+                    <TextBlock Style="{StaticResource Annotation}" Text="IsButtonVisible is False (use IsFloating check box)."/>
                     <TextBlock Style="{StaticResource Annotation}" Text="Dock background applies to floating window."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>
                     <TextBlock Text="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Height: {0}}"/>

@@ -46,6 +46,15 @@ namespace DockFloat
         }
 
 
+        public bool IsButtonVisible
+        {
+            get => (bool)GetValue(IsButtonVisibleProperty);
+            set => SetValue(IsButtonVisibleProperty, value);
+        }
+        public static readonly DependencyProperty IsButtonVisibleProperty =
+            DependencyProperty.Register("IsButtonVisible", typeof(bool), typeof(Dock),
+                new PropertyMetadata(true));
+
         public object Icon
         {
             get => GetValue(IconProperty);
