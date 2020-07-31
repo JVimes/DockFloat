@@ -10,6 +10,6 @@ To use it, install via NuGet then wrap an element in a Dock:
 </df:Dock>
 ```
 
-* `Dock` has some configuration properties.
+* `Dock` has some optional configuration properties.
 * There is a working demo in the source code.
 * Implicit styles outside the Dock have no affect in the floated window. Styles with x:Key do.
