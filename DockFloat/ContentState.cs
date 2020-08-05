@@ -22,13 +22,9 @@ namespace DockFloat
             height = content.Height;
 
             FloatContent = content;
-            ActualWidth = content.ActualWidth;
-            ActualHeight = content.ActualHeight;
         }
 
         internal FrameworkElement FloatContent { get; }
-        internal double ActualWidth { get; }
-        internal double ActualHeight { get; }
 
         internal static ContentState Save(FrameworkElement content)
             => new ContentState(content);
