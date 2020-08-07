@@ -105,46 +105,44 @@ namespace DockFloat
 
         void PopOut()
         {
-            if (presenter is null) return;
-
             var content = Content;
             Content = null;
-
-            var contentAreaSize = presenter.RenderSize;
-            var position = GetFloatWindowPosition();
-            var ownerWindow = Window.GetWindow(this);
-
-            floatWindow = new FloatWindow(content, contentAreaSize, ownerWindow)
-            {
-                DataContext = DataContext,
-                Left = position.X,
-                Top = position.Y,
-                Background = Background,
-                Foreground = Foreground,
-                Padding = Padding,
-            };
-            floatWindow.Closed += (s, e) => IsFloating = false;
-
-            var titleBinding = new Binding(nameof(WindowTitle)) { Source = this };
-            floatWindow.SetBinding(Window.TitleProperty, titleBinding);
-
-            floatWindow.Show();
-
+            ShowNewFloatWindow(content);
             HideTheDock();
         }
 
         void DockIn()
         {
             if (floatWindow is null) return;
-
             var content = floatWindow.Content;
-
-            floatWindow.Close();
             floatWindow = null;
-
             Content = content;
-
             ShowTheDock();
+        }
+
+        void ShowNewFloatWindow(object content)
+        {
+            floatWindow = new FloatWindow(owner: Window.GetWindow(this),
+                                          content,
+                                          contentAreaSize: presenter!.RenderSize,
+                                          position: GetFloatWindowPosition(),
+                                          Padding);
+            floatWindow.Closed += (s, e) => IsFloating = false;
+
+
+            void Bind(string path, DependencyProperty targetProperty)
+            {
+                var binding = new Binding(path) { Source = this };
+                floatWindow.SetBinding(targetProperty, binding);
+            }
+
+            Bind(nameof(DataContext), DataContextProperty);
+            Bind(nameof(Background), BackgroundProperty);
+            Bind(nameof(Foreground), ForegroundProperty);
+            Bind(nameof(Padding), PaddingProperty);
+            Bind(nameof(WindowTitle), Window.TitleProperty);
+
+            floatWindow.Show();
         }
 
         void HideTheDock() => Visibility = Visibility.Collapsed;
