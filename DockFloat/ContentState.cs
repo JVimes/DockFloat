@@ -9,33 +9,21 @@ namespace DockFloat
 {
     class ContentState
     {
-        readonly HorizontalAlignment horizontalAlignment;
-        readonly VerticalAlignment VerticalAlignment;
-        readonly double width;
-        readonly double height;
-
-        ContentState(FrameworkElement content)
+        ContentState(object content, double width, double height)
         {
-            horizontalAlignment = content.HorizontalAlignment;
-            VerticalAlignment = content.VerticalAlignment;
-            width = content.Width;
-            height = content.Height;
-
             FloatContent = content;
+
+            Width = width;
+            Height = height;
         }
 
-        internal FrameworkElement FloatContent { get; }
+        internal object FloatContent { get; }
+        internal double Width { get; }
+        internal double Height { get; }
 
-        internal static ContentState Save(FrameworkElement content)
-            => new ContentState(content);
+        internal static ContentState Save(object content, double width, double height)
+            => new ContentState(content, width, height);
 
-        internal FrameworkElement Restore()
-        {
-            FloatContent.HorizontalAlignment = horizontalAlignment;
-            FloatContent.VerticalAlignment = VerticalAlignment;
-            FloatContent.Width = width;
-            FloatContent.Height = height;
-            return FloatContent;
-        }
+        internal object Restore() => FloatContent;
     }
 }

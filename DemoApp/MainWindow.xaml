@@ -41,9 +41,10 @@
 
     <DockPanel>
 
-        <df:Dock WindowTitle="Left Panel" DockPanel.Dock="Left" Background="SkyBlue" IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}"
-                 IsButtonVisible="False">
-            <Border Style="{StaticResource ContentStyle}" Width="140">
+        <df:Dock Background="SkyBlue" Width="140" DockPanel.Dock="Left"
+                 WindowTitle="Left Panel" IsButtonVisible="False"
+                 IsFloating="{Binding IsChecked, ElementName=isFloatingLeft}">
+            <Border Style="{StaticResource ContentStyle}">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Annotation}" Text="IsButtonVisible is False (use IsFloating check box)."/>
                     <TextBlock Style="{StaticResource Annotation}" Text="Dock background applies to floating window."/>
@@ -54,7 +55,8 @@
             </Border>
         </df:Dock>
 
-        <df:Dock DockPanel.Dock="Right" Width="150.5" ButtonOverlapsContent="False" Background="#333" Foreground="White">
+        <df:Dock Background="#333" Foreground="White" Width="150.5" DockPanel.Dock="Right"
+                 ButtonOverlapsContent="False">
 
             <!-- Example of custom pop-out icon. In this case, it's "PopOutIconLight" from DockFloat library but you can use something else. -->
             <df:Dock.Resources>
@@ -75,8 +77,9 @@
             </Border>
         </df:Dock>
 
-        <df:Dock WindowTitle="{Binding Text, ElementName=bottomPanelTitle}" DockPanel.Dock="Bottom" Background="PaleGoldenrod" ButtonOverlapsContent="False">
-            <Border Style="{StaticResource ContentStyle}" Height="115">
+        <df:Dock Background="PaleGoldenrod" Height="115" DockPanel.Dock="Bottom"
+                 WindowTitle="{Binding Text, ElementName=bottomPanelTitle}" ButtonOverlapsContent="False">
+            <Border Style="{StaticResource ContentStyle}">
                 <StackPanel>
                     <TextBlock Style="{StaticResource Annotation}" Text="ButtonOverlapsContent is False, extra space on right when panel is wide."/>
                     <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}, StringFormat=Width: {0}}" Margin="0"/>

@@ -23,15 +23,16 @@ namespace DockFloat
     ///   <br/> This class is unrelated to <see
     ///   cref="System.Windows.Controls.Dock"/> or <see cref="DockPanel"/>.
     /// </summary>
-    [ContentProperty("Content")]
     [TemplatePart(Name = "PART_PopOutButton", Type = typeof(ButtonBase))]
-    public class Dock : Control
+    [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
+    public class Dock : ContentControl
     {
         static readonly bool runninginXamlDesigner =
             DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
         Window? floatWindow;
         ContentState? savedContentState;
+        ContentPresenter? presenter;
 
 
         static Dock()
@@ -64,15 +65,6 @@ namespace DockFloat
             DependencyProperty.Register("Icon", typeof(object), typeof(Dock),
                 new PropertyMetadata());
 
-        public FrameworkElement? Content
-        {
-            get => (FrameworkElement?)GetValue(ContentProperty);
-            set => SetValue(ContentProperty, value);
-        }
-        public static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(FrameworkElement), typeof(Dock),
-                new PropertyMetadata(null));
-
         public bool ButtonOverlapsContent
         {
             get => (bool)GetValue(ButtonOverlapsContentProperty);
@@ -103,9 +95,13 @@ namespace DockFloat
             DependencyProperty.Register("WindowTitle", typeof(string), typeof(Dock),
                 new PropertyMetadata((d, e) => (d as Dock)?.OnWindowTitleChanged()));
 
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            presenter = GetTemplateChild("PART_Presenter") as ContentPresenter;
+
             var popOutButton = GetTemplateChild("PART_PopOutButton") as Button;
             if (popOutButton != null)
                 popOutButton.Click += (s, e) => IsFloating = true;
@@ -158,9 +154,11 @@ namespace DockFloat
 
         void SaveContentFromDock()
         {
-            if (Content == null) return;
+            if (Content is null || presenter is null) return;
 
-            savedContentState = ContentState.Save(Content);
+            savedContentState = ContentState.Save(Content,
+                                                  presenter.ActualWidth,
+                                                  presenter.ActualHeight);
             Content = null;
         }
 
@@ -177,7 +175,7 @@ namespace DockFloat
             var parentWindow = Window.GetWindow(this);
             var position = GetFloatWindowPosition(parentWindow);
 
-            floatWindow = new FloatWindow(savedContentState.FloatContent)
+            floatWindow = new FloatWindow(savedContentState)
             {
                 Title = WindowTitle ?? "",
                 DataContext = DataContext,
