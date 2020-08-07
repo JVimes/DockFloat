@@ -26,13 +26,18 @@ namespace DockFloat
         }
 
         internal FloatWindow(object content,
-                             Size contentAreaSize)
+                             Size contentAreaSize,
+                             Window owner)
         {
+            Owner = owner;
+
             Initialized += (s, e) =>
             {
                 SetSize(contentAreaSize);
                 Content = content;
             };
+
+            FixRestoreToMaximize();
         }
 
 
@@ -44,6 +49,25 @@ namespace DockFloat
                 dockInButton.Click += (s, e) => Close();
         }
 
+        /// <summary>
+        ///   When owner window is restored from minimized, maximize <see
+        ///   cref="FloatWindow"/> if it was previously maximized.
+        /// </summary>
+        void FixRestoreToMaximize()
+        {
+            void OnOwnerStateChanged(object? sender, EventArgs e)
+            {
+                if (Owner.WindowState is WindowState.Minimized
+                    || WindowState != WindowState.Maximized)
+                    return;
+
+                Action maximize = () => WindowState = WindowState.Maximized;
+                Dispatcher.BeginInvoke(maximize);
+            }
+
+            Owner.StateChanged += OnOwnerStateChanged;
+            Closed += (s, e) => Owner.StateChanged -= OnOwnerStateChanged;
+        }
 
         void SetSize(Size contentAreaSize)
         {

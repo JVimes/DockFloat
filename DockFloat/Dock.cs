@@ -36,13 +36,6 @@ namespace DockFloat
                                    typeof(Dock),
                                    new FrameworkPropertyMetadata(typeof(Dock)));
 
-        public Dock()
-        {
-            var inXamlDesigner = DesignerProperties.GetIsInDesignMode(this);
-            if (!inXamlDesigner)
-                FixChildWindowRestoreToMaximize();
-        }
-
 
         public bool IsButtonVisible
         {
@@ -104,20 +97,6 @@ namespace DockFloat
         }
 
 
-        void FixChildWindowRestoreToMaximize()
-        {
-            void OnLoaded(object sender, RoutedEventArgs e)
-            {
-                Loaded -= OnLoaded;
-                var parentWindow = Window.GetWindow(this);
-                Utils.FixChildWindowRestoreToMaximize(parentWindow);
-            }
-
-            // Using Loaded event. Can't use Initialized event because parent
-            // window was sometimes null there.
-            Loaded += OnLoaded;
-        }
-
         void OnIsFloatingChanged()
         {
             if (IsFloating) PopOut();
@@ -135,7 +114,7 @@ namespace DockFloat
             var position = GetFloatWindowPosition();
             var ownerWindow = Window.GetWindow(this);
 
-            floatWindow = new FloatWindow(content, contentAreaSize)
+            floatWindow = new FloatWindow(content, contentAreaSize, ownerWindow)
             {
                 DataContext = DataContext,
                 Left = position.X,
@@ -143,7 +122,6 @@ namespace DockFloat
                 Background = Background,
                 Foreground = Foreground,
                 Padding = Padding,
-                Owner = ownerWindow,
             };
             floatWindow.Closed += (s, e) => IsFloating = false;
 
