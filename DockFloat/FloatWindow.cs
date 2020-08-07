@@ -26,12 +26,11 @@ namespace DockFloat
         }
 
         internal FloatWindow(object content,
-                             double contentAreaWidth,
-                             double contentAreaHeight)
+                             Size contentAreaSize)
         {
             Initialized += (s, e) =>
             {
-                SetSize(contentAreaWidth, contentAreaHeight);
+                SetSize(contentAreaSize);
                 Content = content;
             };
         }
@@ -46,7 +45,7 @@ namespace DockFloat
         }
 
 
-        void SetSize(double contentAreaWidth, double contentAreaHeight)
+        void SetSize(Size contentAreaSize)
         {
             var activeWindowBorder = 2; // Accounts for active-window highlighting border from FloatWindow.xaml
             var windowChrome = WindowChrome.GetWindowChrome(this);
@@ -62,8 +61,8 @@ namespace DockFloat
                                  + Padding.Top
                                  + Padding.Bottom;
 
-            Width = contentAreaWidth + horizontalChrome;
-            Height = contentAreaHeight + verticalChrome;
+            Width = contentAreaSize.Width + horizontalChrome;
+            Height = contentAreaSize.Height + verticalChrome;
         }
     }
 }

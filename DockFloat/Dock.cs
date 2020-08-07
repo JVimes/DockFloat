@@ -27,21 +27,19 @@ namespace DockFloat
     [TemplatePart(Name = "PART_Presenter", Type = typeof(ContentPresenter))]
     public class Dock : ContentControl
     {
-        static readonly bool runninginXamlDesigner =
-            DesignerProperties.GetIsInDesignMode(new DependencyObject());
-
         Window? floatWindow;
         ContentPresenter? presenter;
 
 
         static Dock()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(Dock), new FrameworkPropertyMetadata(typeof(Dock)));
-        }
+            => DefaultStyleKeyProperty.OverrideMetadata(
+                                   typeof(Dock),
+                                   new FrameworkPropertyMetadata(typeof(Dock)));
 
         public Dock()
         {
-            if (!runninginXamlDesigner)
+            var inXamlDesigner = DesignerProperties.GetIsInDesignMode(this);
+            if (!inXamlDesigner)
                 FixChildWindowRestoreToMaximize();
         }
 
@@ -99,11 +97,10 @@ namespace DockFloat
         {
             base.OnApplyTemplate();
 
-            presenter = GetTemplateChild("PART_Presenter") as ContentPresenter;
+            presenter = (ContentPresenter)GetTemplateChild("PART_Presenter");
 
-            var popOutButton = GetTemplateChild("PART_PopOutButton") as Button;
-            if (popOutButton != null)
-                popOutButton.Click += (s, e) => IsFloating = true;
+            var popOutButton = (Button)GetTemplateChild("PART_PopOutButton");
+            popOutButton.Click += (s, e) => IsFloating = true;
         }
 
 
@@ -115,7 +112,10 @@ namespace DockFloat
                 var parentWindow = Window.GetWindow(this);
                 Utils.FixChildWindowRestoreToMaximize(parentWindow);
             }
-            Loaded += OnLoaded; // Using Loaded. Can't use Initialized because parent window was null in one case.
+
+            // Using Loaded event. Can't use Initialized event because parent
+            // window was sometimes null there.
+            Loaded += OnLoaded;
         }
 
         void OnWindowTitleChanged()
@@ -132,16 +132,17 @@ namespace DockFloat
 
         void PopOut()
         {
+            if (presenter is null) return;
+
             var content = Content;
             Content = null;
 
-            var contentAreaWidth = presenter.ActualWidth;
-            var contentAreaHeight = presenter.ActualHeight;
+            var contentAreaSize = presenter.RenderSize;
 
-            var parentWindow = Window.GetWindow(this);
-            var position = GetFloatWindowPosition(parentWindow);
+            var ownerWindow = Window.GetWindow(this);
+            var position = GetFloatWindowPosition(ownerWindow);
 
-            floatWindow = new FloatWindow(content, contentAreaWidth, contentAreaHeight)
+            floatWindow = new FloatWindow(content, contentAreaSize)
             {
                 Title = WindowTitle ?? "",
                 DataContext = DataContext,
@@ -150,7 +151,7 @@ namespace DockFloat
                 Background = Background,
                 Foreground = Foreground,
                 Padding = Padding,
-                Owner = parentWindow,
+                Owner = ownerWindow,
             };
             floatWindow.Closed += (s, e) => IsFloating = false;
 
@@ -161,6 +162,8 @@ namespace DockFloat
 
         void DockIn()
         {
+            if (floatWindow is null) return;
+
             var content = floatWindow.Content;
 
             floatWindow.Close();
@@ -174,11 +177,11 @@ namespace DockFloat
         void HideTheDock() => Visibility = Visibility.Collapsed;
         void ShowTheDock() => Visibility = Visibility.Visible;
 
-        Point GetFloatWindowPosition(Window parentWindow)
+        Point GetFloatWindowPosition(Window ownerWindow)
         {
             var position = new Point(10, 10);
-            position = TranslatePoint(position, parentWindow);
-            position = parentWindow.PointToScreen(position);
+            position = TranslatePoint(position, ownerWindow);
+            position = ownerWindow.PointToScreen(position);
             position = AccountForOSDpiScaling(position);
             return position;
         }
