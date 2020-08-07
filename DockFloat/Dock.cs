@@ -73,6 +73,15 @@ namespace DockFloat
             DependencyProperty.Register("ButtonOverlapsContent", typeof(bool), typeof(Dock),
                 new PropertyMetadata(true));
 
+        public string WindowTitle
+        {
+            get => (string)GetValue(WindowTitleProperty);
+            set => SetValue(WindowTitleProperty, value);
+        }
+        public static readonly DependencyProperty WindowTitleProperty =
+            DependencyProperty.Register("WindowTitle", typeof(string), typeof(Dock),
+                new PropertyMetadata((d, e) => (d as Dock)?.OnWindowTitleChanged()));
+
         public bool IsFloating
         {
             get => (bool)GetValue(IsFloatingProperty);
@@ -84,15 +93,6 @@ namespace DockFloat
                     false,
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
                     (d, e) => (d as Dock)?.OnIsFloatingChanged()));
-
-        public string WindowTitle
-        {
-            get => (string)GetValue(WindowTitleProperty);
-            set => SetValue(WindowTitleProperty, value);
-        }
-        public static readonly DependencyProperty WindowTitleProperty =
-            DependencyProperty.Register("WindowTitle", typeof(string), typeof(Dock),
-                new PropertyMetadata((d, e) => (d as Dock)?.OnWindowTitleChanged()));
 
 
         public override void OnApplyTemplate()
@@ -118,16 +118,16 @@ namespace DockFloat
             Loaded += OnLoaded; // Using Loaded. Can't use Initialized because parent window was null in one case.
         }
 
-        void OnIsFloatingChanged()
-        {
-            if (IsFloating) PopOut();
-            else DockIn();
-        }
-
         void OnWindowTitleChanged()
         {
             if (floatWindow != null)
                 floatWindow.Title = WindowTitle;
+        }
+
+        void OnIsFloatingChanged()
+        {
+            if (IsFloating) PopOut();
+            else DockIn();
         }
 
         void PopOut()
