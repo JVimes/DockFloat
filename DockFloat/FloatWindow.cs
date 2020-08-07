@@ -25,12 +25,14 @@ namespace DockFloat
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FloatWindow), new FrameworkPropertyMetadata(typeof(FloatWindow)));
         }
 
-        internal FloatWindow(ContentState contentState)
+        internal FloatWindow(object content,
+                             double contentAreaWidth,
+                             double contentAreaHeight)
         {
             Initialized += (s, e) =>
             {
-                SetSize(contentState);
-                Content = contentState.FloatContent;
+                SetSize(contentAreaWidth, contentAreaHeight);
+                Content = content;
             };
         }
 
@@ -44,7 +46,7 @@ namespace DockFloat
         }
 
 
-        void SetSize(ContentState contentState)
+        void SetSize(double contentAreaWidth, double contentAreaHeight)
         {
             var activeWindowBorder = 2; // Accounts for active-window highlighting border from FloatWindow.xaml
             var windowChrome = WindowChrome.GetWindowChrome(this);
@@ -60,8 +62,8 @@ namespace DockFloat
                                  + Padding.Top
                                  + Padding.Bottom;
 
-            Width = contentState.Width + horizontalChrome;
-            Height = contentState.Height + verticalChrome;
+            Width = contentAreaWidth + horizontalChrome;
+            Height = contentAreaHeight + verticalChrome;
         }
     }
 }

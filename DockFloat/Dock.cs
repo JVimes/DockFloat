@@ -31,7 +31,6 @@ namespace DockFloat
             DesignerProperties.GetIsInDesignMode(new DependencyObject());
 
         Window? floatWindow;
-        ContentState? savedContentState;
         ContentPresenter? presenter;
 
 
@@ -133,49 +132,16 @@ namespace DockFloat
 
         void PopOut()
         {
-            SaveContentFromDock();
-            AddContentToNewFloatingWindow();
-            HideTheDock();
-            IsFloating = true;
-        }
-
-        void DockIn()
-        {
-            if (floatWindow != null)
-            {
-                floatWindow.Close();
-                floatWindow = null;
-            }
-
-            RestoreContentToDock();
-            ShowTheDock();
-            IsFloating = false;
-        }
-
-        void SaveContentFromDock()
-        {
-            if (Content is null || presenter is null) return;
-
-            savedContentState = ContentState.Save(Content,
-                                                  presenter.ActualWidth,
-                                                  presenter.ActualHeight);
+            var content = Content;
             Content = null;
-        }
 
-        void RestoreContentToDock()
-        {
-            Content = savedContentState?.Restore();
-            savedContentState = null;
-        }
-
-        void AddContentToNewFloatingWindow()
-        {
-            if (savedContentState == null) return;
+            var contentAreaWidth = presenter.ActualWidth;
+            var contentAreaHeight = presenter.ActualHeight;
 
             var parentWindow = Window.GetWindow(this);
             var position = GetFloatWindowPosition(parentWindow);
 
-            floatWindow = new FloatWindow(savedContentState)
+            floatWindow = new FloatWindow(content, contentAreaWidth, contentAreaHeight)
             {
                 Title = WindowTitle ?? "",
                 DataContext = DataContext,
@@ -186,9 +152,23 @@ namespace DockFloat
                 Padding = Padding,
                 Owner = parentWindow,
             };
-
             floatWindow.Closed += (s, e) => IsFloating = false;
+
             floatWindow.Show();
+
+            HideTheDock();
+        }
+
+        void DockIn()
+        {
+            var content = floatWindow.Content;
+
+            floatWindow.Close();
+            floatWindow = null;
+
+            Content = content;
+
+            ShowTheDock();
         }
 
         void HideTheDock() => Visibility = Visibility.Collapsed;
