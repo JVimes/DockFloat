@@ -138,9 +138,8 @@ namespace DockFloat
             Content = null;
 
             var contentAreaSize = presenter.RenderSize;
-
+            var position = GetFloatWindowPosition();
             var ownerWindow = Window.GetWindow(this);
-            var position = GetFloatWindowPosition(ownerWindow);
 
             floatWindow = new FloatWindow(content, contentAreaSize)
             {
@@ -177,13 +176,12 @@ namespace DockFloat
         void HideTheDock() => Visibility = Visibility.Collapsed;
         void ShowTheDock() => Visibility = Visibility.Visible;
 
-        Point GetFloatWindowPosition(Window ownerWindow)
+        Point GetFloatWindowPosition()
         {
-            var position = new Point(10, 10);
-            position = TranslatePoint(position, ownerWindow);
-            position = ownerWindow.PointToScreen(position);
-            position = AccountForOSDpiScaling(position);
-            return position;
+            var positionInDock = new Point(10, 10);
+            var positionInScreen = PointToScreen(positionInDock);
+            positionInScreen = AccountForOSDpiScaling(positionInScreen);
+            return positionInScreen;
         }
 
         Point AccountForOSDpiScaling(Point position)
