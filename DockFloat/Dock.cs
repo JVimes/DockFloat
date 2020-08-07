@@ -78,7 +78,7 @@ namespace DockFloat
         }
         public static readonly DependencyProperty WindowTitleProperty =
             DependencyProperty.Register("WindowTitle", typeof(string), typeof(Dock),
-                new PropertyMetadata((d, e) => (d as Dock)?.OnWindowTitleChanged()));
+                new PropertyMetadata(""));
 
         public bool IsFloating
         {
@@ -118,12 +118,6 @@ namespace DockFloat
             Loaded += OnLoaded;
         }
 
-        void OnWindowTitleChanged()
-        {
-            if (floatWindow != null)
-                floatWindow.Title = WindowTitle;
-        }
-
         void OnIsFloatingChanged()
         {
             if (IsFloating) PopOut();
@@ -143,7 +137,6 @@ namespace DockFloat
 
             floatWindow = new FloatWindow(content, contentAreaSize)
             {
-                Title = WindowTitle ?? "",
                 DataContext = DataContext,
                 Left = position.X,
                 Top = position.Y,
@@ -153,6 +146,9 @@ namespace DockFloat
                 Owner = ownerWindow,
             };
             floatWindow.Closed += (s, e) => IsFloating = false;
+
+            var titleBinding = new Binding(nameof(WindowTitle)) { Source = this };
+            floatWindow.SetBinding(Window.TitleProperty, titleBinding);
 
             floatWindow.Show();
 
