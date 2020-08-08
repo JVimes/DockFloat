@@ -18,7 +18,8 @@
     <Copyright>Copyright © 2017 John Burak</Copyright>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>Support hiding the pop-out button with Dock.IsButtonVisible.</PackageReleaseNotes>
+    <PackageReleaseNotes>- Support pop-out button inside the dock's content.
+- Bind background, foreground, title, etc. from dock to float-window.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
